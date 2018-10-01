@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "title": "Countries",
+      "package": "gpw-v4-national-identifier-grid-rev10_2pt5_min_asc.zip",
+      "filename": "gpw-v4-national-identifier-grid-rev10_2pt5_min.asc",
+      "year": 2010,
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-national-identifier-grid-rev10"
+    },{
+      "title": "Land Area",
+      "package": "gpw-v4-land-water-area-rev10_landareakm_2pt5_min_asc.zip",
+      "filename": "gpw_v4_land_water_area_rev10_landareakm_2pt5_min.asc",
+      "year": 2010,
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10"
+    },{
+      "title": "Water Area",
+      "package": "gpw-v4-land-water-area-rev10_waterareakm_2pt5_min_asc.zip",
+      "filename": "gpw-v4-land-water-area-rev10_waterareakm_2pt5_min.asc",
+      "year": 2010,
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10"
+    },{
+      "title": "Population count",
+      "package": "gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10_totpop_2pt5_min_nc.zip",
+      "filename": "gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10_totpop_2pt5_min.nc",
+      "year": 2015,
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10"
+    },{
+      "title": "Population density",
+      "package": "gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10_totpop_2pt5_min_nc.zip",
+      "filename": "gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10_totpop_2pt5_min.nc",
+      "year": 2015,
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10"
+    },{
+      "title": "Land surface temperature",
+      "filename": "MOD11C1_M_LSTDA_2016/MOD11C1_M_LSTDA_2016-{mm}.CSV.gz",
+      "year": 2016,
+      "source": [
+        "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD11C1_M_LSTDA",
+        "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD11C1_M_LSTDA/"
+      ]
+    },{
+      "title": "Sea surface temperature",
+      "filename": "MYD28M_2016/MYD28M_2016-{mm}.CSV.gz",
+      "year": 2016,
+      "source": [
+        "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MYD28M",
+        "ftp://neoftp.sci.gsfc.nasa.gov/csv/MYD28M/"
+      ]
+    },{
+      "title": "Surface temperature anomaly",
+      "filename": "giss_surface_temperature_anomaly_2016.nc",
+      "year": 2016,
+      "source": "https://data.giss.nasa.gov/gistemp/maps/"
+    }
+  ]
+}
