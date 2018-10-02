@@ -1,55 +1,96 @@
 {
   "files": [
     {
+      "id": "countries",
       "title": "Countries",
       "package": "gpw-v4-national-identifier-grid-rev10_2pt5_min_asc.zip",
       "filename": "gpw-v4-national-identifier-grid-rev10_2pt5_min.asc",
       "year": 2010,
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-national-identifier-grid-rev10"
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-national-identifier-grid-rev10",
+      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "emptyValue": -9999,
+      "params": {
+        "skipRows": 6
+      }
     },{
+      "id": "land",
       "title": "Land Area",
       "package": "gpw-v4-land-water-area-rev10_landareakm_2pt5_min_asc.zip",
       "filename": "gpw_v4_land_water_area_rev10_landareakm_2pt5_min.asc",
       "year": 2010,
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10"
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10",
+      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "emptyValue": -9999,
+      "params": {
+        "skipRows": 6
+      }
     },{
+      "id": "water",
       "title": "Water Area",
       "package": "gpw-v4-land-water-area-rev10_waterareakm_2pt5_min_asc.zip",
       "filename": "gpw-v4-land-water-area-rev10_waterareakm_2pt5_min.asc",
       "year": 2010,
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10"
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10",
+      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "emptyValue": -9999,
+      "params": {
+        "skipRows": 6
+      }
     },{
+      "id": "pop_count",
       "title": "Population count",
       "package": "gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10_totpop_2pt5_min_nc.zip",
-      "filename": "gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10_totpop_2pt5_min.nc",
+      "filename": "gpw_v4_une_atotpopbt_cntm_2pt5_min.nc",
       "year": 2015,
+      "params": {
+        "valueKey": "UN-Adjusted Population Count, v4.10 (2000, 2005, 2010, 2015, 2020): 2.5 arc-minutes",
+        "zKey": 3
+      },
+      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "emptyValue": "-3.4e+38",
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10"
     },{
+      "id": "pop_density",
       "title": "Population density",
       "package": "gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10_totpop_2pt5_min_nc.zip",
-      "filename": "gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10_totpop_2pt5_min.nc",
+      "filename": "gpw_v4_une_atotpopbt_dens_2pt5_min.nc",
       "year": 2015,
+      "params": {
+        "valueKey": "UN-Adjusted Population Density, v4.10 (2000, 2005, 2010, 2015, 2020): 2.5 arc-minutes",
+        "zKey": 3
+      },
+      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "emptyValue": "-3.4e+38",
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10"
     },{
+      "id": "lst",
       "title": "Land surface temperature",
-      "filename": "MOD11C1_M_LSTDA_2016/MOD11C1_M_LSTDA_2016-{mm}.CSV.gz",
+      "filename": "MOD11C1_M_LSTDA_2016/*.CSV.gz",
       "year": 2016,
+      "emptyValue": 99999.0,
       "source": [
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD11C1_M_LSTDA",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD11C1_M_LSTDA/"
       ]
     },{
+      "id": "sst",
       "title": "Sea surface temperature",
-      "filename": "MYD28M_2016/MYD28M_2016-{mm}.CSV.gz",
+      "filename": "MYD28M_2016/*.CSV.gz",
       "year": 2016,
+      "emptyValue": 99999.0,
       "source": [
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MYD28M",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MYD28M/"
       ]
     },{
+      "id": "anomaly",
       "title": "Surface temperature anomaly",
       "filename": "giss_surface_temperature_anomaly_2016.nc",
       "year": 2016,
+      "params": {
+        "valueKey": "TEMPANOMALY"
+      },
+      "emptyValue": 9999.0,
       "source": "https://data.giss.nasa.gov/gistemp/maps/"
     }
   ]
