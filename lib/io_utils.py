@@ -10,9 +10,15 @@ import zipfile
 def ascDump(filename):
     with open(filename, 'rb') as f:
         lines = list(f)
+        rows = len(lines)-6
+        firstLine = [l.strip() for l in lines[6].strip().split(" ")]
+        print("rows: %s" % rows)
+        print("cols: %s" % len(firstLine))
+
         lines = lines[:6]
         for line in lines:
             print(line.strip())
+
 
 def ncDump(filename, verb=True):
     nc_fid = Dataset(filename, 'r')
@@ -51,32 +57,41 @@ def ncDump(filename, verb=True):
                 print_ncattr(var)
     return nc_attrs, nc_dims, nc_vars
 
-def readCsv(filename, handler=None):
+def parseFloat(string):
+    try:
+        num = float(string.strip())
+        return num
+    except ValueError:
+        return np.nan
+
+def readCsv(filename, delimeter=",", handler=None, params={}):
     if not handler:
         handler = open(filename, 'rb')
+    skipRows = 0 if "skipRows" not in params else params["skipRows"]
     lines = list(handler)
-    rows = np.zeros((len(lines), len(lines[0].split(","))))
+    if skipRows > 0:
+        lines = lines[skipRows:]
+    firstLine = [l.strip() for l in lines[0].strip().split(delimeter)]
+    rows = np.zeros((len(lines), len(firstLine)))
     for i, line in enumerate(lines):
-        row = np.array([float(value) for value in line.split(",")])
+        row = np.array([parseFloat(value) for value in line.strip().split(delimeter)])
         rows[i] = row
     handler.close()
     return rows
 
-def readNetCDF(filename, params):
+def readNetCDF(filename, params={}):
     ds = Dataset(filename, 'r')
     valueKey = params["valueKey"]
     zKey = None if "zKey" not in params else params["zKey"]
     data = ds.variables[valueKey][:] if zKey is None else ds.variables[valueKey][zKey][:]
+    ds.close()
     return data
 
-def readAsc(filename, handler=None):
-    if not handler:
-        handler = open(filename, 'rb')
-
-    handler.close()
-    return rows
+def readText(filename, handler=None, params={}):
+    return readCsv(filename, delimeter=" ", handler=handler, params=params)
 
 def readFile(fn, package=None, params={}):
+    print("Reading file %s..." % fn)
     fileHandler = None
     tempFile = None
     ext = fn.split(".")[-1].lower()
@@ -85,10 +100,10 @@ def readFile(fn, package=None, params={}):
         zf = zipfile.ZipFile(package, 'r')
         # special case: NetCDF cannot be read via filehandler; must extract
         if ext == "nc":
-            zf.extract(fn)
+            zf.extract(str(fn))
             tempFile = fn
         else:
-            fileHandler = zf.open(fn)
+            fileHandler = zf.open(str(fn))
     # check for .gz
     elif os.path.isfile(fn) and ext == "gz":
         fileHandler = gzip.open(fn, 'rb')
@@ -99,12 +114,25 @@ def readFile(fn, package=None, params={}):
 
     results = None
     if ext == "csv":
-        results = readCsv(fn, handler=fileHandler)
+        results = readCsv(fn, handler=fileHandler, params=params)
     elif ext == "nc":
         results = readNetCDF(fn, params=params)
     else:
-        results = readTxt(fn, handler=fileHandler)
+        results = readText(fn, handler=fileHandler, params=params)
+
+    emptyValue = None if "emptyValue" not in params else params["emptyValue"]
+    results = replaceEmpty(results, emptyValue)
 
     if tempFile:
         os.remove(tempFile)
+
+    print("%s parsed with shape %s" % (fn, results.shape))
     return results
+
+def replaceEmpty(arr, emptyValue):
+    shape = arr.shape
+    arr = arr.reshape(-1)
+    ev = float(emptyValue)
+    arr[arr==ev] = np.nan
+    arr = arr.reshape(shape)
+    return arr

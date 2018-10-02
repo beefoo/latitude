@@ -45,23 +45,27 @@ for f in files:
     outFile = OUTPUT_DIR + f["id"] + ".json"
     data = None
     filename = f["filename"]
+    pathname = INPUT_DIR + filename
     # Check if file exists already
     if os.path.isfile(outFile) and not OVERWRITE:
         print("%s already exists. Skipping." % outFile)
     else:
-        package = None if "package" not in f else f["package"]
+        package = None if "package" not in f else INPUT_DIR + f["package"]
         params = {} if "params" not in f else f["params"]
         if "*" in filename:
-            filenames = glob.glob(filename)
+            filenames = glob.glob(pathname)
             datas = []
             for fn in filenames:
                 datas.append(readFile(fn, package=package, params=params))
-            # TODO: get mean of data
+            # get mean of all datas, ignoring NaN
+            data = np.nanmean(np.array(datas), axis=0)
+        elif package is None:
+            data = readFile(pathname, params=params)
         else:
-            data = readFile(f["filename"], package=package, params=params)
-    if data:
-        # Write to file
-        with open(outFile, 'w') as fout:
-            f["data"] = data
-            json.dump(f, fout)
-            print("Wrote data to %s" % outFile)
+            data = readFile(filename, package=package, params=params)
+    # if data is not None:
+        # # Write to file
+        # with open(outFile, 'w') as fout:
+        #     f["data"] = data
+        #     json.dump(f, fout)
+        #     print("Wrote data to %s" % outFile)
