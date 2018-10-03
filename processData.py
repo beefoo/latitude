@@ -53,11 +53,28 @@ def valueToColor(value, minValue, maxValue):
         return (c, c, c)
 
 def drawData(d, filename):
-    print("Processing %s..." % filename)
     if os.path.isfile(filename):
         return False
+    print("Processing %s..." % filename)
+
+    # from matplotlib import pyplot as plt
+    # plt.figure(figsize = (20,10))
+    # x = d.reshape(-1)
+    # x = x[~np.isnan(x)]
+    # x = x[x > 1000]
+    # # example data
+    # mu = 100  # mean of distribution
+    # sigma = 15  # standard deviation of distribution
+    # num_bins = 100
+    # fig, ax = plt.subplots()
+    # # the histogram of the data
+    # n, bins, patches = ax.hist(x, num_bins)
+    # plt.show()
+    # return False
+
     minValue = np.nanmin(d)
     maxValue = np.nanmax(d)
+    print("Value range: %s - %s" % (minValue, maxValue))
     shape = d.shape
     pixels = d.reshape(-1)
     pixels = np.array([valueToColor(value, minValue, maxValue) for value in pixels])
@@ -67,6 +84,8 @@ def drawData(d, filename):
     print("Saving %s..." % filename)
     im.save(filename)
     print("Saved %s" % filename)
+
+# files = [files[4]]
 
 for f in files:
     outFile = OUTPUT_DIR + f["id"] + ".json"

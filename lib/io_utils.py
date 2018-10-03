@@ -20,7 +20,6 @@ def ascDump(filename):
         for line in lines:
             print(line.strip())
 
-
 def ncDump(filename, verb=True):
     nc_fid = Dataset(filename, 'r')
     def print_ncattr(key):
