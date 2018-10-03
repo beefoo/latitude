@@ -4,6 +4,7 @@ import argparse
 import glob
 import json
 from lib import ascDump, ncDump, norm, readFile
+import math
 import os
 import numpy as np
 from PIL import Image
@@ -49,6 +50,10 @@ def valueToColor(value, minValue, maxValue):
     if np.isnan(value):
         return (255, 0, 0)
     else:
+        if (maxValue - minValue) > 9999.0 and minValue > 0.0 and value > 0.0:
+            maxValue = maxValue**0.25
+            minValue = minValue**0.25
+            value = value**0.25
         c = int(round(norm(value, (minValue, maxValue)) * 255))
         return (c, c, c)
 
