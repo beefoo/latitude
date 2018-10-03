@@ -3,9 +3,10 @@
 import argparse
 import glob
 import json
-from lib import ascDump, readFile, ncDump
+from lib import ascDump, ncDump, norm, readFile
 import os
 import numpy as np
+from PIL import Image
 from pprint import pprint
 import sys
 
@@ -17,6 +18,7 @@ parser.add_argument('-res', dest="RESOLUTION", default=1.0, type=float, help="Re
 parser.add_argument('-points', dest="POINTS", default=800, type=int, help="Target data points")
 parser.add_argument('-out', dest="OUTPUT_DIR", default="data/", help="Output directory")
 parser.add_argument('-overwrite', dest="OVERWRITE", default=0, type=int, help="Overwrite existing data?")
+parser.add_argument('-draw', dest="DRAW", default=0, type=int, help="Draw data files?")
 args = parser.parse_args()
 
 # Parse arguments
@@ -26,20 +28,45 @@ RESOLUTION = args.RESOLUTION
 POINTS = args.POINTS
 OUTPUT_DIR = args.OUTPUT_DIR
 OVERWRITE = args.OVERWRITE > 0
+DRAW = args.DRAW > 0
 
 # ncDump("data/downloads/gpw_v4_une_atotpopbt_dens_2pt5_min.nc")
 # ascDump("data/downloads/gpw_v4_national_identifier_grid_rev10_2pt5_min.asc")
 # sys.exit()
 
 # Make sure output dir exist
-outDir = os.path.dirname(OUTPUT_DIR)
-if not os.path.exists(outDir):
-    os.makedirs(outDir)
+outDirs = [os.path.dirname(OUTPUT_DIR), os.path.dirname("output/")]
+for outDir in outDirs:
+    if not os.path.exists(outDir):
+        os.makedirs(outDir)
 
 files = []
 with open(CONFIG) as f:
     configData = json.load(f)
     files = configData["files"]
+
+def valueToColor(value, minValue, maxValue):
+    if np.isnan(value):
+        return (255, 0, 0)
+    else:
+        c = int(round(norm(value, (minValue, maxValue)) * 255))
+        return (c, c, c)
+
+def drawData(d, filename):
+    print("Processing %s..." % filename)
+    if os.path.isfile(filename):
+        return False
+    minValue = np.nanmin(d)
+    maxValue = np.nanmax(d)
+    shape = d.shape
+    pixels = d.reshape(-1)
+    pixels = np.array([valueToColor(value, minValue, maxValue) for value in pixels])
+    h, w = shape
+    pixels = pixels.reshape((h, w, 3))
+    im = Image.fromarray(pixels.astype('uint8'), 'RGB')
+    print("Saving %s..." % filename)
+    im.save(filename)
+    print("Saved %s" % filename)
 
 for f in files:
     outFile = OUTPUT_DIR + f["id"] + ".json"
@@ -63,6 +90,9 @@ for f in files:
             data = readFile(pathname, params=params)
         else:
             data = readFile(filename, package=package, params=params)
+
+    if DRAW:
+        drawData(data, "output/" + f["id"] + ".png")
     # if data is not None:
         # # Write to file
         # with open(outFile, 'w') as fout:

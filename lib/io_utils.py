@@ -4,6 +4,7 @@ import csv
 import gzip
 from netCDF4 import Dataset
 import numpy as np
+import numpy.ma as ma
 import os
 import zipfile
 
@@ -134,5 +135,6 @@ def replaceEmpty(arr, emptyValue):
     arr = arr.reshape(-1)
     ev = float(emptyValue)
     arr[arr==ev] = np.nan
+    arr = ma.filled(arr, np.nan)
     arr = arr.reshape(shape)
     return arr
