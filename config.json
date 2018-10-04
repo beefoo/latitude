@@ -101,6 +101,20 @@
       "reduceMode": "mean",
       "precision": 1
     },{
+      "id": "vegetation",
+      "title": "Vegetation",
+      "filename": "MOD_NDVI_M_2016/*.CSV.gz",
+      "year": 2016,
+      "params": {
+        "emptyValue": 99999.0
+      },
+      "source": [
+        "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M",
+        "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD_NDVI_M/"
+      ],
+      "reduceMode": "sum",
+      "precision": 3
+    },{
       "id": "anomaly",
       "title": "Surface temperature anomaly",
       "filename": "giss_surface_temperature_anomaly_2016.nc",
