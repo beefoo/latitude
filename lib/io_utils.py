@@ -120,6 +120,9 @@ def readFile(fn, package=None, params={}):
     else:
         results = readText(fn, handler=fileHandler, params=params)
 
+    if "reverse" in params:
+        results = np.flip(results, axis=0)
+
     emptyValue = None if "emptyValue" not in params else params["emptyValue"]
     results = replaceEmpty(results, emptyValue)
 

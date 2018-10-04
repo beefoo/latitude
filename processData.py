@@ -59,13 +59,15 @@ def getLatitudeData(data, resolution, points, mode="mean"):
         end = start + height
         start = int(round(start * h))
         end = int(round(end * h))
+        if start==end:
+            continue
         subset = data[start:end]
         subset = subset.reshape(-1)
         count = len(subset)
         subset = subset[~np.isnan(subset)]
         result = None
         if mode == "sum":
-            result = int(np.sum(subset))
+            result = float(np.sum(subset))
         elif mode == "set":
             result = list(np.unique(subset.astype(int)))
         elif mode == "percent":
@@ -74,7 +76,7 @@ def getLatitudeData(data, resolution, points, mode="mean"):
             result = np.mean(subset)
             if np.isnan(result):
                 result = 0
-            result = int(result)
+            result = float(result)
         results.append(result)
     return results
 
@@ -141,10 +143,10 @@ for f in files:
         else:
             data = readFile(filename, package=package, params=params)
 
-    if DRAW:
-        drawData(data, "output/map_" + f["id"] + ".png")
-
     if data is not None:
+        if DRAW:
+            drawData(data, "output/map_" + f["id"] + ".png")
+
         # Write to file
         latitudeData = getLatitudeData(data, RESOLUTION, POINTS, mode=f["reduceMode"])
         if PLOT and f["reduceMode"] != "set":

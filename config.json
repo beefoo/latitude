@@ -99,6 +99,7 @@
       "filename": "giss_surface_temperature_anomaly_2016.nc",
       "year": 2016,
       "params": {
+        "reverse": 1,
         "emptyValue": 9999.0,
         "valueKey": "TEMPANOMALY"
       },
