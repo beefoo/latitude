@@ -12,7 +12,8 @@
         "emptyValue": -9999,
         "skipRows": 6
       },
-      "reduceMode": "set"
+      "reduceMode": "set",
+      "setData": "countries.csv"
     },{
       "id": "land",
       "title": "Land Area",
@@ -25,7 +26,8 @@
         "emptyValue": -9999,
         "skipRows": 6
       },
-      "reduceMode": "percent"
+      "reduceMode": "percent",
+      "precision": 5
     },{
       "id": "water",
       "title": "Water Area",
@@ -38,10 +40,11 @@
         "emptyValue": -9999,
         "skipRows": 6
       },
-      "reduceMode": "percent"
+      "reduceMode": "percent",
+      "precision": 5
     },{
       "id": "pop_count",
-      "title": "Population count",
+      "title": "Population",
       "package": "gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10_totpop_2pt5_min_nc.zip",
       "filename": "gpw_v4_une_atotpopbt_cntm_2pt5_min.nc",
       "year": 2015,
@@ -52,7 +55,8 @@
       },
       "bounds": [-180.0, 180.0, 85.0, -60.0],
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10",
-      "reduceMode": "sum"
+      "reduceMode": "sum",
+      "precision": 0
     },{
       "id": "pop_density",
       "title": "Population density",
@@ -66,7 +70,8 @@
       },
       "bounds": [-180.0, 180.0, 85.0, -60.0],
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10",
-      "reduceMode": "mean"
+      "reduceMode": "mean",
+      "precision": 0
     },{
       "id": "lst",
       "title": "Land surface temperature",
@@ -79,7 +84,8 @@
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD11C1_M_LSTDA",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD11C1_M_LSTDA/"
       ],
-      "reduceMode": "mean"
+      "reduceMode": "mean",
+      "precision": 1
     },{
       "id": "sst",
       "title": "Sea surface temperature",
@@ -92,7 +98,8 @@
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MYD28M",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MYD28M/"
       ],
-      "reduceMode": "mean"
+      "reduceMode": "mean",
+      "precision": 1
     },{
       "id": "anomaly",
       "title": "Surface temperature anomaly",
@@ -104,7 +111,21 @@
         "valueKey": "TEMPANOMALY"
       },
       "source": "https://data.giss.nasa.gov/gistemp/maps/",
-      "reduceMode": "mean"
+      "reduceMode": "mean",
+      "precision": 5
+    },{
+      "id": "emissions",
+      "title": "Annual Fossil-Fuel CO₂ Emissions",
+      "filename": "gridcar.2013",
+      "year": 2013,
+      "params": {
+        "emptyValue": 0.0,
+        "shape": [180, 360],
+        "multiplier": 10000000
+      },
+      "source": "http://cdiac.ess-dive.lbl.gov/epubs/ndp/ndp058/ndp058_v2016.html",
+      "reduceMode": "sum",
+      "precision": 5
     }
   ]
 }

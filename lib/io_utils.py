@@ -57,9 +57,11 @@ def ncDump(filename, verb=True):
                 print_ncattr(var)
     return nc_attrs, nc_dims, nc_vars
 
-def parseFloat(string):
+def parseFloat(string, multiplier=None):
     try:
         num = float(string.strip())
+        if multiplier is not None:
+            num *= multiplier
         return num
     except ValueError:
         return np.nan
@@ -68,14 +70,18 @@ def readCsv(filename, delimeter=",", handler=None, params={}):
     if not handler:
         handler = open(filename, 'rb')
     skipRows = 0 if "skipRows" not in params else params["skipRows"]
+    multiplier = None if "multiplier" not in params else params["multiplier"]
+    shape = None if "shape" not in params else tuple(params["shape"])
     lines = list(handler)
     if skipRows > 0:
         lines = lines[skipRows:]
     firstLine = [l.strip() for l in lines[0].strip().split(delimeter)]
     rows = np.zeros((len(lines), len(firstLine)))
     for i, line in enumerate(lines):
-        row = np.array([parseFloat(value) for value in line.strip().split(delimeter)])
+        row = np.array([parseFloat(value, multiplier=multiplier) for value in line.strip().split(delimeter)])
         rows[i] = row
+    if shape is not None:
+        rows = rows.reshape(shape)
     handler.close()
     return rows
 

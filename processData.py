@@ -49,7 +49,7 @@ with open(CONFIG) as f:
     configData = json.load(f)
     files = configData["files"]
 
-def getLatitudeData(data, resolution, points, mode="mean"):
+def getLatitudeData(data, resolution, points, mode="mean", precision=0):
     height = resolution / 180.0
     results = []
     h, w = data.shape
@@ -77,6 +77,11 @@ def getLatitudeData(data, resolution, points, mode="mean"):
             if np.isnan(result):
                 result = 0
             result = float(result)
+        if isinstance(result, float):
+            if precision > 0:
+                result = round(result, precision)
+            else:
+                result = int(round(result))
         results.append(result)
     return results
 
@@ -148,7 +153,9 @@ for f in files:
             drawData(data, "output/map_" + f["id"] + ".png")
 
         # Write to file
-        latitudeData = getLatitudeData(data, RESOLUTION, POINTS, mode=f["reduceMode"])
+        reduceMode = "mean" if "reduceMode" not in f else f["reduceMode"]
+        precision = 0 if "precision" not in f else f["precision"]
+        latitudeData = getLatitudeData(data, RESOLUTION, POINTS, mode=reduceMode, precision=precision)
         if PLOT and f["reduceMode"] != "set":
             drawPlot(latitudeData, "output/plot_" + f["id"] + ".png")
 
