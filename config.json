@@ -112,7 +112,7 @@
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD_NDVI_M/"
       ],
-      "reduceMode": "sum",
+      "reduceMode": "mean",
       "precision": 3
     },{
       "id": "anomaly",
@@ -153,6 +153,19 @@
       },
       "reduceMode": "mean",
       "precision": 5
+    },{
+      "id": "ice",
+      "title": "Ice sheets",
+      "filename": "ICESAT_ELEV_G_2003-02-20_rgb_3600x1800.CSV.gz",
+      "year": 2003,
+      "params": {
+        "emptyValue": 99999.0
+      },
+      "source": [
+        "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=ICESAT_ELEV_G"
+      ],
+      "reduceMode": "percent",
+      "precision": 3
     }
   ]
 }
