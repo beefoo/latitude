@@ -140,6 +140,19 @@
       "source": "http://cdiac.ess-dive.lbl.gov/epubs/ndp/ndp058/ndp058_v2016.html",
       "reduceMode": "sum",
       "precision": 5
+    },{
+      "id": "gdp",
+      "title": "GDP per capita",
+      "filename": "GDP_per_capita_PPP_1990_2015_v2.nc",
+      "year": 2015,
+      "source": "https://datadryad.org/resource/doi:10.5061/dryad.dk1j0",
+      "params": {
+        "valueKey": "GDP_per_capita_PPP",
+        "zKey": -1,
+        "emptyValue": -9.0
+      },
+      "reduceMode": "mean",
+      "precision": 5
     }
   ]
 }

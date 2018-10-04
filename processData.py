@@ -34,6 +34,7 @@ OVERWRITE = args.OVERWRITE > 0
 DRAW = args.DRAW > 0
 PLOT = args.PLOT > 0
 
+# ncDump("data/downloads/GDP_per_capita_PPP_1990_2015_v2.nc")
 # ncDump("data/downloads/gpw_v4_une_atotpopbt_dens_2pt5_min.nc")
 # ascDump("data/downloads/gpw_v4_national_identifier_grid_rev10_2pt5_min.asc")
 # sys.exit()
