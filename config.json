@@ -11,7 +11,8 @@
       "params": {
         "emptyValue": -9999,
         "skipRows": 6
-      }
+      },
+      "reduceMode": "set"
     },{
       "id": "land",
       "title": "Land Area",
@@ -23,7 +24,8 @@
       "params": {
         "emptyValue": -9999,
         "skipRows": 6
-      }
+      },
+      "reduceMode": "percent"
     },{
       "id": "water",
       "title": "Water Area",
@@ -35,7 +37,8 @@
       "params": {
         "emptyValue": -9999,
         "skipRows": 6
-      }
+      },
+      "reduceMode": "percent"
     },{
       "id": "pop_count",
       "title": "Population count",
@@ -48,7 +51,8 @@
         "emptyValue": "-3.4e+38"
       },
       "bounds": [-180.0, 180.0, 85.0, -60.0],
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10"
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10",
+      "reduceMode": "sum"
     },{
       "id": "pop_density",
       "title": "Population density",
@@ -61,7 +65,8 @@
         "emptyValue": "-3.4e+38"
       },
       "bounds": [-180.0, 180.0, 85.0, -60.0],
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10"
+      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10",
+      "reduceMode": "mean"
     },{
       "id": "lst",
       "title": "Land surface temperature",
@@ -73,7 +78,8 @@
       "source": [
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD11C1_M_LSTDA",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD11C1_M_LSTDA/"
-      ]
+      ],
+      "reduceMode": "mean"
     },{
       "id": "sst",
       "title": "Sea surface temperature",
@@ -85,7 +91,8 @@
       "source": [
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MYD28M",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MYD28M/"
-      ]
+      ],
+      "reduceMode": "mean"
     },{
       "id": "anomaly",
       "title": "Surface temperature anomaly",
@@ -95,7 +102,8 @@
         "emptyValue": 9999.0,
         "valueKey": "TEMPANOMALY"
       },
-      "source": "https://data.giss.nasa.gov/gistemp/maps/"
+      "source": "https://data.giss.nasa.gov/gistemp/maps/",
+      "reduceMode": "mean"
     }
   ]
 }
