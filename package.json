@@ -1,0 +1,10 @@
+{
+  "name": "latitude",
+  "description": "Latitude",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "express": "^4.16.3"
+  }
+}

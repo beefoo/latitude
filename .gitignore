@@ -3,3 +3,4 @@
 output/*
 tmp/*
 data/downloads/*
+node_modules/
