@@ -65,7 +65,7 @@ body {
   .cell {
     height: 50vh;
   }
-  .cell.third {
+  .container.tertiary .cell.third {
     width: 20%;
   }
 }
