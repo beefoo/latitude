@@ -3,7 +3,7 @@
 import argparse
 import glob
 import json
-from lib import ascDump, lerp, ncDump, norm, readFile
+from lib import *
 import math
 from matplotlib import pyplot as plt
 import os
@@ -92,17 +92,6 @@ def getLatitudeData(data, resolution, points, mode="mean", precision=0, bounds=(
         results.append(result)
     return results
 
-def valueToColor(value, minValue, maxValue):
-    if np.isnan(value):
-        return (255, 0, 0)
-    else:
-        if (maxValue - minValue) > 9999.0 and minValue > 0.0 and value > 0.0:
-            maxValue = maxValue**0.25
-            minValue = minValue**0.25
-            value = value**0.25
-        c = int(round(norm(value, (minValue, maxValue)) * 255))
-        return (c, c, c)
-
 def drawData(d, filename):
     if os.path.isfile(filename):
         return False
@@ -140,26 +129,38 @@ def drawPlot(xy, filename, title, label):
 
 for f in files:
     outFile = OUTPUT_DIR + f["id"] + ".json"
-    data = None
-    filename = f["filename"]
-    pathname = INPUT_DIR + filename
+    filenames = f["filename"]
+    if not isinstance(filenames, list):
+        filenames = [filenames]
+    datas = []
+
     # Check if file exists already
     if os.path.isfile(outFile) and not OVERWRITE:
         print("%s already exists. Skipping." % outFile)
     else:
-        package = None if "package" not in f else INPUT_DIR + f["package"]
-        params = {} if "params" not in f else f["params"]
-        if "*" in filename:
-            filenames = glob.glob(pathname)
-            datas = []
-            for fn in filenames:
-                datas.append(readFile(fn, package=package, params=params))
-            # get mean of all datas, ignoring NaN
-            data = np.nanmean(np.array(datas), axis=0)
-        elif package is None:
-            data = readFile(pathname, params=params)
-        else:
-            data = readFile(filename, package=package, params=params)
+        for filename in filenames:
+            pathname = INPUT_DIR + filename
+            package = None if "package" not in f else INPUT_DIR + f["package"]
+            params = {} if "params" not in f else f["params"]
+            if "*" in filename:
+                fns = glob.glob(pathname)
+                ds = []
+                for fn in fns:
+                    ds.append(readFile(fn, package=package, params=params))
+                # get mean of all datas, ignoring NaN
+                data = np.nanmean(np.array(ds), axis=0)
+            elif package is None:
+                data = readFile(pathname, params=params)
+            else:
+                data = readFile(filename, package=package, params=params)
+            datas.append(data)
+
+    data = None
+    if len(datas) == 1:
+        data = datas[0]
+    elif len(datas) > 1:
+        print("Combining data...")
+        data = combineData(datas)
 
     if data is not None:
         if DRAW:

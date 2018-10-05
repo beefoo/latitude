@@ -75,29 +75,19 @@
       "fillValue": 0,
       "unit": "persons per square kilometer"
     },{
-      "id": "lst",
-      "title": "Land surface temperature",
-      "filename": "MOD11C1_M_LSTDA_2016/*.CSV.gz",
+      "id": "temperature",
+      "title": "Surface temperature",
+      "filename": [
+        "MOD11C1_M_LSTDA_2016/*.CSV.gz",
+        "MYD28M_2016/*.CSV.gz"
+      ],
       "year": 2016,
       "params": {
         "emptyValue": 99999.0
       },
       "source": [
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD11C1_M_LSTDA",
-        "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD11C1_M_LSTDA/"
-      ],
-      "reduceMode": "mean",
-      "precision": 1,
-      "unit": "°C"
-    },{
-      "id": "sst",
-      "title": "Sea surface temperature",
-      "filename": "MYD28M_2016/*.CSV.gz",
-      "year": 2016,
-      "params": {
-        "emptyValue": 99999.0
-      },
-      "source": [
+        "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD11C1_M_LSTDA/",
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MYD28M",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MYD28M/"
       ],
