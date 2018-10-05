@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Latitude</title>
-  <meta name="description" content="">
+  <title>Harmony of the Sphere</title>
+  <meta name="description" content="Music using data by latitude">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="ui/css/normalize.css">
@@ -12,7 +12,57 @@
 </head>
 
 <body>
-  <div id="app" class="app"></div>
+  <div id="app" class="app">
+    <div class="dashboard">
+      <div class="container primary">
+        <div id="map" class="map cell">
+          <h1>Harmony of the Sphere</h1>
+          <div id="map-highlight" class="map-highlight">
+            <div id="map-label" class="map-label">90°N</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container secondary">
+        <div class="cell half">
+          <h2>Surface composition</h2>
+          <div id="surface-type"></div>
+        </div>
+        <div class="cell half">
+          <h2>Most populous cities</h2>
+          <div id="cities"></div>
+        </div>
+      </div>
+
+      <div class="container tertiary">
+        <div class="cell third">
+          <h2>Header</h2>
+        </div>
+        <div class="cell third">
+          <h2>Header</h2>
+        </div>
+        <div class="cell third">
+          <h2>Header</h2>
+        </div>
+        <div class="cell third">
+          <h2>Header</h2>
+        </div>
+        <div class="cell third">
+          <h2>Header</h2>
+        </div>
+      </div>
+
+    </div><!-- /dashboard -->
+
+    <div id="intro" class="intro modal">
+      <div></div>
+    </div>
+
+    <div id="about" class="about modal">
+      <div></div>
+    </div>
+
+  </div>
 
   <script src="ui/js/vendor/jquery-3.3.1.min.js"></script>
   <script src="ui/js/vendor/underscore-min.js"></script>
