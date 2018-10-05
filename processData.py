@@ -3,7 +3,7 @@
 import argparse
 import glob
 import json
-from lib import ascDump, ncDump, norm, readFile
+from lib import ascDump, lerp, ncDump, norm, readFile
 import math
 from matplotlib import pyplot as plt
 import os
@@ -50,13 +50,19 @@ with open(CONFIG) as f:
     configData = json.load(f)
     files = configData["files"]
 
-def getLatitudeData(data, resolution, points, mode="mean", precision=0):
-    height = resolution / 180.0
+def getLatitudeData(data, resolution, points, mode="mean", precision=0, bounds=(90, -90), fillValue="-"):
+    lat0, lat1 = bounds
+    height = 1.0 * resolution / (lat0 - lat1)
     results = []
     h, w = data.shape
     for i in range(points):
         progress = 1.0 * i / (points-1)
-        start = progress * (1.0-height)
+        lat = -(progress * 180 - 90)
+        if not (lat1 <= lat <= lat0):
+            results.append(fillValue)
+            continue
+        dataProgress = norm(lat, (lat0, lat1))
+        start = dataProgress * (1.0-height)
         end = start + height
         start = int(round(start * h))
         end = int(round(end * h))
@@ -67,17 +73,17 @@ def getLatitudeData(data, resolution, points, mode="mean", precision=0):
         count = len(subset)
         subset = subset[~np.isnan(subset)]
         result = None
-        if mode == "sum":
-            result = float(np.sum(subset))
-        elif mode == "set":
-            result = list(np.unique(subset.astype(int)))
+        if mode == "count":
+            set = list(np.unique(subset.astype(int)))
+            result = len(set)
         elif mode == "percent":
             result = 1.0 * len(subset) / count
+        elif mode == "sum":
+            result = float(np.sum(subset))
+        elif len(subset) <= 0:
+            result = fillValue
         else:
-            result = np.mean(subset)
-            if np.isnan(result):
-                result = 0
-            result = float(result)
+            result = float(np.mean(subset))
         if isinstance(result, float):
             if precision > 0:
                 result = round(result, precision)
@@ -114,11 +120,12 @@ def drawData(d, filename):
     im.save(filename)
     print("Saved %s" % filename)
 
-def drawPlot(y, filename):
+def drawPlot(xy, filename):
     if os.path.isfile(filename):
         return False
     plt.figure(figsize=(20,10))
-    x = np.linspace(90, -90, len(y))
+    x = [lerp((90, -90), v[0]) for v in xy]
+    y = [v[1] for v in xy]
     plt.plot(x, y)
     plt.savefig(filename)
     plt.close()
@@ -154,11 +161,14 @@ for f in files:
             drawData(data, "output/map_" + f["id"] + ".png")
 
         # Write to file
+        bounds = (90, -90) if "bounds" not in f else tuple(f["bounds"])
         reduceMode = "mean" if "reduceMode" not in f else f["reduceMode"]
         precision = 0 if "precision" not in f else f["precision"]
-        latitudeData = getLatitudeData(data, RESOLUTION, POINTS, mode=reduceMode, precision=precision)
-        if PLOT and f["reduceMode"] != "set":
-            drawPlot(latitudeData, "output/plot_" + f["id"] + ".png")
+        fillValue = "-" if "fillValue" not in f else f["fillValue"]
+        latitudeData = getLatitudeData(data, RESOLUTION, POINTS, mode=reduceMode, precision=precision, bounds=bounds, fillValue=fillValue)
+        if PLOT:
+            count = len(latitudeData)
+            drawPlot([(1.0*i/(count-1), d) for i, d in enumerate(latitudeData) if d != fillValue], "output/plot_" + f["id"] + ".png")
 
         with open(outFile, 'w') as fout:
             f["data"] = latitudeData

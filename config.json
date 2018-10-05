@@ -7,13 +7,12 @@
       "filename": "gpw_v4_national_identifier_grid_rev10_2pt5_min.asc",
       "year": 2010,
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-national-identifier-grid-rev10",
-      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "bounds": [85.0, -60.0],
       "params": {
         "emptyValue": -9999,
         "skipRows": 6
       },
-      "reduceMode": "set",
-      "setData": "countries.csv"
+      "reduceMode": "count"
     },{
       "id": "land",
       "title": "Land Area",
@@ -21,7 +20,7 @@
       "filename": "gpw_v4_land_water_area_rev10_landareakm_2pt5_min.asc",
       "year": 2010,
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10",
-      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "bounds": [85.0, -60.0],
       "params": {
         "emptyValue": -9999,
         "skipRows": 6
@@ -35,7 +34,7 @@
       "filename": "gpw_v4_land_water_area_rev10_waterareakm_2pt5_min.asc",
       "year": 2010,
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10",
-      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "bounds": [85.0, -60.0],
       "params": {
         "emptyValue": -9999,
         "skipRows": 6
@@ -53,10 +52,11 @@
         "zKey": 3,
         "emptyValue": "-3.4e+38"
       },
-      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "bounds": [85.0, -60.0],
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10",
       "reduceMode": "sum",
-      "precision": 0
+      "precision": 0,
+      "fillValue": 0
     },{
       "id": "pop_density",
       "title": "Population density",
@@ -68,10 +68,11 @@
         "zKey": 3,
         "emptyValue": "-3.4e+38"
       },
-      "bounds": [-180.0, 180.0, 85.0, -60.0],
+      "bounds": [85.0, -60.0],
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10",
       "reduceMode": "mean",
-      "precision": 0
+      "precision": 0,
+      "fillValue": 0
     },{
       "id": "lst",
       "title": "Land surface temperature",
@@ -135,11 +136,11 @@
       "params": {
         "emptyValue": 0.0,
         "shape": [180, 360],
-        "multiplier": 10000000
+        "multiplier": 1000000
       },
       "source": "http://cdiac.ess-dive.lbl.gov/epubs/ndp/ndp058/ndp058_v2016.html",
       "reduceMode": "sum",
-      "precision": 5
+      "fillValue": 0
     },{
       "id": "gdp",
       "title": "GDP per capita",
