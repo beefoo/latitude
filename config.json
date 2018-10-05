@@ -72,7 +72,8 @@
       "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10",
       "reduceMode": "mean",
       "precision": 0,
-      "fillValue": 0
+      "fillValue": 0,
+      "unit": "persons per square kilometer"
     },{
       "id": "lst",
       "title": "Land surface temperature",
@@ -86,7 +87,8 @@
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD11C1_M_LSTDA/"
       ],
       "reduceMode": "mean",
-      "precision": 1
+      "precision": 1,
+      "unit": "°C"
     },{
       "id": "sst",
       "title": "Sea surface temperature",
@@ -100,7 +102,8 @@
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MYD28M/"
       ],
       "reduceMode": "mean",
-      "precision": 1
+      "precision": 1,
+      "unit": "°C"
     },{
       "id": "vegetation",
       "title": "Vegetation",
@@ -114,7 +117,8 @@
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD_NDVI_M/"
       ],
       "reduceMode": "mean",
-      "precision": 3
+      "precision": 3,
+      "unit": "NDVI"
     },{
       "id": "anomaly",
       "title": "Surface temperature anomaly",
@@ -127,7 +131,8 @@
       },
       "source": "https://data.giss.nasa.gov/gistemp/maps/",
       "reduceMode": "mean",
-      "precision": 5
+      "precision": 5,
+      "unit": "°C"
     },{
       "id": "emissions",
       "title": "Annual Fossil-Fuel CO₂ Emissions",
@@ -135,12 +140,12 @@
       "year": 2013,
       "params": {
         "emptyValue": 0.0,
-        "shape": [180, 360],
-        "multiplier": 1000000
+        "shape": [180, 360]
       },
       "source": "http://cdiac.ess-dive.lbl.gov/epubs/ndp/ndp058/ndp058_v2016.html",
       "reduceMode": "sum",
-      "fillValue": 0
+      "fillValue": 0,
+      "unit": "million metric tons of carbon"
     },{
       "id": "gdp",
       "title": "GDP per capita",
@@ -153,7 +158,8 @@
         "emptyValue": -9.0
       },
       "reduceMode": "mean",
-      "precision": 5
+      "precision": 5,
+      "unit": "PPP, US dollars"
     },{
       "id": "ice",
       "title": "Ice sheets",

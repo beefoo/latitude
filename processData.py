@@ -120,13 +120,18 @@ def drawData(d, filename):
     im.save(filename)
     print("Saved %s" % filename)
 
-def drawPlot(xy, filename):
+def drawPlot(xy, filename, title, label):
     if os.path.isfile(filename):
         return False
-    plt.figure(figsize=(20,10))
+    plt.style.use('fivethirtyeight')
+    plt.figure(figsize=(10,10))
     x = [lerp((90, -90), v[0]) for v in xy]
     y = [v[1] for v in xy]
-    plt.plot(x, y)
+    plt.plot(y, x)
+    plt.title(title)
+    plt.xlabel(label)
+    plt.ylabel("Degrees Latitude")
+    plt.yticks(np.arange(-90, 91, step=30))
     plt.savefig(filename)
     plt.close()
     print("Saved %s" % filename)
@@ -168,7 +173,11 @@ for f in files:
         latitudeData = getLatitudeData(data, RESOLUTION, POINTS, mode=reduceMode, precision=precision, bounds=bounds, fillValue=fillValue)
         if PLOT:
             count = len(latitudeData)
-            drawPlot([(1.0*i/(count-1), d) for i, d in enumerate(latitudeData) if d != fillValue], "output/plot_" + f["id"] + ".png")
+            title = f["title"] + " by Latitude ("+str(f["year"])+")"
+            label = f["title"]
+            if "unit" in f:
+                label += " ("+f["unit"]+")"
+            drawPlot([(1.0*i/(count-1), d) for i, d in enumerate(latitudeData) if d != fillValue], "output/plot_" + f["id"] + ".png", title, label)
 
         with open(outFile, 'w') as fout:
             f["data"] = latitudeData
