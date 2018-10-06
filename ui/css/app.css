@@ -29,6 +29,8 @@ body {
   height: 25vh;
   box-sizing: border-box;
   padding: 1rem;
+  display: flex;
+	flex-direction: column;
 }
 .cell.half {
   width: 50%;
@@ -49,6 +51,31 @@ body {
 }
 .cell h2 {
   color: #bbb;
+}
+.data {
+  width: 100%;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+.map-highlight {
+  position: absolute;
+  width: 100%;
+  height: 0.5555555555555%;
+  box-shadow: 0 0 0 50vh rgba(0,0,0,0.5);
+}
+.map-label {
+  position: absolute;
+  width: 100%;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  bottom: -2rem;
+}
+.map-label.below {
+  bottom: auto;
+  top: -2rem;
 }
 
 @media screen and (orientation: landscape) {

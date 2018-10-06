@@ -15,10 +15,12 @@
   <div id="app" class="app">
     <div class="dashboard">
       <div class="container primary">
-        <div id="map" class="map cell">
+        <div class="cell">
           <h1>Harmony of the Sphere</h1>
-          <div id="map-highlight" class="map-highlight">
-            <div id="map-label" class="map-label">90°N</div>
+          <div id="map" class="map data">
+            <div id="map-highlight" class="map-highlight">
+              <div id="map-label" class="map-label">90°N</div>
+            </div>
           </div>
         </div>
       </div>
@@ -26,32 +28,50 @@
       <div class="container secondary">
         <div class="cell third">
           <h2>Surface composition</h2>
-          <div id="surface-type"></div>
+          <div id="surface-type" class="data"></div>
         </div>
         <div class="cell third">
           <h2>Most populous cities</h2>
-          <div id="cities"></div>
+          <div id="cities" class="data"></div>
         </div>
         <div class="cell third">
           <h2>Population</h2>
+          <div id="population" class="data bar">
+            <div class="value"><div class="label"></div></div>
+          </div>
         </div>
       </div>
 
       <div class="container tertiary">
         <div class="cell third">
           <h2>Surface temperature</h2>
+          <div id="temperature" class="data bar">
+            <div class="value"><div class="label"></div></div>
+          </div>
         </div>
         <div class="cell third">
           <h2>Vegetation</h2>
+          <div id="vegetation" class="data bar">
+            <div class="value"><div class="label"></div></div>
+          </div>
         </div>
         <div class="cell third">
           <h2>GDP per capita</h2>
+          <div id="gdp" class="data bar">
+            <div class="value"><div class="label"></div></div>
+          </div>
         </div>
         <div class="cell third">
           <h2>Fossil-Fuel CO₂ Emissions</h2>
+          <div id="emissions" class="data bar">
+            <div class="value"><div class="label"></div></div>
+          </div>
         </div>
         <div class="cell third">
           <h2>Temperature anomaly</h2>
+          <div id="anomaly" class="data bar">
+            <div class="value"><div class="label"></div></div>
+          </div>
         </div>
       </div>
 
@@ -69,6 +89,7 @@
 
   <script src="ui/js/vendor/jquery-3.3.1.min.js"></script>
   <script src="ui/js/vendor/underscore-min.js"></script>
+  <script src="ui/js/vendor/papaparse.min.js"></script>
   <script src="ui/js/vendor/Pizzicato.min.js"></script>
   <script src="ui/js/app.js"></script>
 </body>

@@ -107,7 +107,7 @@
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD_NDVI_M/"
       ],
       "reduceMode": "mean",
-      "precision": 3,
+      "precision": 2,
       "unit": "NDVI"
     },{
       "id": "anomaly",
@@ -121,7 +121,7 @@
       },
       "source": "https://data.giss.nasa.gov/gistemp/maps/",
       "reduceMode": "mean",
-      "precision": 5,
+      "precision": 2,
       "unit": "°C"
     },{
       "id": "emissions",
@@ -148,7 +148,6 @@
         "emptyValue": -9.0
       },
       "reduceMode": "mean",
-      "precision": 5,
       "unit": "PPP, US dollars"
     },{
       "id": "ice",
