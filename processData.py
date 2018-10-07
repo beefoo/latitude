@@ -50,7 +50,7 @@ with open(CONFIG) as f:
     configData = json.load(f)
     files = configData["files"]
 
-def getLatitudeData(data, resolution, points, mode="mean", precision=0, bounds=(90, -90), fillValue="-"):
+def getLatitudeData(data, resolution, points, mode="mean", precision=0, bounds=(90, -90), fillValue="-", fillValues=[]):
     lat0, lat1 = bounds
     height = 1.0 * resolution / (lat0 - lat1)
     results = []
@@ -58,6 +58,14 @@ def getLatitudeData(data, resolution, points, mode="mean", precision=0, bounds=(
     for i in range(points):
         progress = 1.0 * i / (points-1)
         lat = -(progress * 180 - 90)
+        filled = False
+        for fv in fillValues:
+            if fv["bounds"][1] <= lat <= fv["bounds"][0]:
+                filled = True
+                results.append(fv["value"])
+                break
+        if filled:
+            continue
         if not (lat1 <= lat <= lat0):
             results.append(fillValue)
             continue
@@ -171,7 +179,8 @@ for f in files:
         reduceMode = "mean" if "reduceMode" not in f else f["reduceMode"]
         precision = 0 if "precision" not in f else f["precision"]
         fillValue = "-" if "fillValue" not in f else f["fillValue"]
-        latitudeData = getLatitudeData(data, RESOLUTION, POINTS, mode=reduceMode, precision=precision, bounds=bounds, fillValue=fillValue)
+        fillValues = [] if "fillValues" not in f else f["fillValues"]
+        latitudeData = getLatitudeData(data, RESOLUTION, POINTS, mode=reduceMode, precision=precision, bounds=bounds, fillValue=fillValue, fillValues=fillValues)
         if PLOT:
             count = len(latitudeData)
             title = f["title"] + " by Latitude ("+str(f["year"])+")"
