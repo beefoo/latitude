@@ -12,12 +12,9 @@ var App = (function() {
         {"el": "#temperature", "url": "data/temperature.json", "type": "bar"},
         {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar"},
         {"el": "#cities", "url": "data/countries.csv", "type": "list"},
-        {
-          "el": "#surface-type",
-          "urls": ["data/land.json", "data/ice.json"],
-          "type": "pie",
-          "default": {}
-        }
+        {"el": "#surface-type", "url": "data/land.json", "label": "Land", "type": "pie"},
+        {"el": "#surface-type", "label": "Water", "type": "pie"},
+        {"el": "#surface-type", "url": "data/ice.json", "label": "Ice", "type": "pie"}
       ]
     };
     this.opt = _.extend({}, defaults, config);
@@ -26,6 +23,10 @@ var App = (function() {
 
   function lerp(a, b, percent) {
     return (1.0*b - a) * percent + a;
+  }
+
+  function lim(v, min, max) {
+    return (Math.min(max, Math.max(min, v)));
   }
 
   function loadCSV(csvFilename, id){
@@ -90,13 +91,9 @@ var App = (function() {
       var $el = $(d.el);
       _this.data[i].$value = $el.find('.value');
       _this.data[i].$label = $el.find('.label');
-      var urls = [];
-      if (d.urls) urls = d.urls;
-      if (d.url) urls.push(d.url);
-      _.each(urls, function(url){
-        if (url.endsWith(".csv")) deferreds.push(loadCSV(url, i));
-        else deferreds.push(loadJSON(url, i));
-      });
+      var url = d.url;
+      if (url && url.endsWith(".csv")) deferreds.push(loadCSV(url, i));
+      else if (url && url.endsWith(".json")) deferreds.push(loadJSON(url, i));
     })
     $.when.apply(null, deferreds).done(function() {
       deferred.resolve(arguments);
@@ -119,16 +116,20 @@ var App = (function() {
   App.prototype.onDataLoaded = function(results){
     var _this = this;
     var data = _this.data;
+    var pies = _.filter(data, function(d){ return d.type==="pie" && !d.url; });
+    pies = _.object(_.map(pies, function(p){ return [p.el, {results: [{id: p.index}]}]; }));
+
     _.each(results, function(result){
       var id = result.id;
       var d = data[id];
+      var rdata = result.data;
 
       if (d.type==="bar") {
-        var rdata = result.data.data;
-        var values = _.filter(rdata, function(v){ return v!=="-"; })
+        var bdata = result.data.data;
+        var values = _.filter(bdata, function(v){ return v!=="-"; })
         var vmin = _.min(values);
         var vmax = _.max(values);
-        var newData = _.map(rdata, function(value){
+        var newData = _.map(bdata, function(value){
           var normValue = 0;
           if (value !== "-") normValue = norm(value, vmin, vmax);
           return {
@@ -139,7 +140,50 @@ var App = (function() {
         d.data = newData;
       }
 
+      if (d.type==="pie") {
+        if (_.has(pies, d.el)) pies[d.el].results.push(result)
+        else pies[d.el] = {results: [result]}
+      }
     });
+    this.bars = _.filter(data, function(d){ return d.type==="bar"; });
+
+    _.each(pies, function(p, key){
+      var results = _.sortBy(p.results, 'id');
+      var dresults = _.filter(results, function(r){ return r.data; });
+      var nresult = _.find(results, function(r){ return !r.data; });
+      var count = dresults[0].data.data.length;
+
+      var $el = $(key);
+      _.each(results, function(r){
+        var d = data[r.id];
+        var $del = $('<div><div class="label"></div></div>');
+        d.$label = $del.find('.label');
+        d.$el = $del;
+        $el.append(d.$el);
+      });
+
+      var pieData = [];
+      _.times(count, function(i){
+        var pd = [];
+        var total = 0
+        _.each(dresults, function(r){
+          var d = data[r.id];
+          var value = r.data.data[i];
+          if (value==="-") value = 0;
+          pd.push({id: r.id, label: d.label, value: value});
+          total += value;
+        });
+        var difference = 1.0 - total;
+        difference = lim(difference, 0, 1);
+        pd.push({id: nresult.id, label: data[nresult.id].label, value: difference});
+        pd = _.sortBy(pd, 'id');
+        pieData.push(pd);
+      });
+
+      pies[key].data = pieData;
+      pies[key].results = results;
+    });
+    this.pies = pies;
   };
 
   App.prototype.onReady = function(){
@@ -171,12 +215,15 @@ var App = (function() {
     var top = lerp(0, 100-(100/180), scrollPercent);
     this.$highlight.css("top", top+"%");
 
-    // update data dashboard
-    _.each(this.data, function(d){
-      if (d.type==="list") _this.updateList(d, scrollPercent);
-      else if (d.type==="pie") _this.updatePie(d, scrollPercent);
-      else _this.updateBar(d, scrollPercent);
+    // update bars
+    _.each(this.bars, function(b){
+      _this.updateBar(b, scrollPercent);
     });
+
+    // update pies
+    _.each(this.pies, function(p, el){
+      _this.updatePie(p, scrollPercent);
+    })
   };
 
   App.prototype.updateBar = function(d, percent){
@@ -191,6 +238,16 @@ var App = (function() {
   };
 
   App.prototype.updatePie = function(d, percent){
+    var data = this.data;
+    var len = d.data.length;
+    var index = Math.round((len-1) * percent);
+    var v = d.data[index];
+    var html = "";
+
+    _.each(d.results, function(r, i){
+      var dd = data[r.id];
+      dd.$label.text(v[i].label + ": " + Math.round(v[i].value*100) + "%")
+    })
 
   };
 
