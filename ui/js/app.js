@@ -11,7 +11,7 @@ var App = (function() {
         {"el": "#population", "url": "data/pop_count.json", "type": "bar"},
         {"el": "#temperature", "url": "data/temperature.json", "type": "bar"},
         {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar"},
-        {"el": "#cities", "url": "data/countries.csv", "type": "list"},
+        {"el": "#cities", "url": "data/cities.json", "type": "list"},
         {"el": "#surface-type", "url": "data/land.json", "label": "Land", "type": "pie"},
         {"el": "#surface-type", "label": "Water", "type": "pie"},
         {"el": "#surface-type", "url": "data/ice.json", "label": "Ice", "type": "pie"}
@@ -89,6 +89,7 @@ var App = (function() {
     _.each(this.data, function(d, i){
       _this.data[i].index = i;
       var $el = $(d.el);
+      _this.data[i].$el = $el;
       _this.data[i].$value = $el.find('.value');
       _this.data[i].$label = $el.find('.label');
       var url = d.url;
@@ -144,8 +145,18 @@ var App = (function() {
         if (_.has(pies, d.el)) pies[d.el].results.push(result)
         else pies[d.el] = {results: [result]}
       }
+
+      if (d.type==="list") {
+        var cdata = result.data.data;
+        var ref = result.data.ref;
+        cdata = _.map(cdata, function(dlist){
+          return _.map(dlist, function(i){
+            return ref[i];
+          })
+        });
+        d.data = cdata;
+      }
     });
-    this.bars = _.filter(data, function(d){ return d.type==="bar"; });
 
     _.each(pies, function(p, key){
       var results = _.sortBy(p.results, 'id');
@@ -183,6 +194,9 @@ var App = (function() {
       pies[key].data = pieData;
       pies[key].results = results;
     });
+
+    this.bars = _.filter(data, function(d){ return d.type==="bar"; });
+    this.lists = _.filter(data, function(d){ return d.type==="list"; });
     this.pies = pies;
   };
 
@@ -223,7 +237,12 @@ var App = (function() {
     // update pies
     _.each(this.pies, function(p, el){
       _this.updatePie(p, scrollPercent);
-    })
+    });
+
+    // update lists
+    _.each(this.lists, function(p){
+      _this.updateList(p, scrollPercent);
+    });
   };
 
   App.prototype.updateBar = function(d, percent){
@@ -234,7 +253,17 @@ var App = (function() {
   };
 
   App.prototype.updateList = function(d, percent){
+    var html = "";
+    var len = d.data.length;
+    var index = Math.round((len-1) * percent);
+    var data = d.data[index];
 
+    _.each(data, function(item){
+      html += '<div>' + item + '</div>';
+    });
+
+    if (html.length <= 0) html = "<div>---</div>";
+    d.$el.html(html);
   };
 
   App.prototype.updatePie = function(d, percent){

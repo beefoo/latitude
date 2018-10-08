@@ -8,6 +8,21 @@ import numpy.ma as ma
 import os
 import zipfile
 
+def parseNumber(string):
+    try:
+        num = float(string)
+        if "." not in string:
+            num = int(string)
+        return num
+    except ValueError:
+        return string
+
+def parseNumbers(arr):
+    for i, item in enumerate(arr):
+        for key in item:
+            arr[i][key] = parseNumber(item[key])
+    return arr
+
 def ascDump(filename):
     with open(filename, 'rb') as f:
         lines = list(f)
@@ -83,6 +98,16 @@ def readCsv(filename, delimeter=",", handler=None, params={}):
     if shape is not None:
         rows = rows.reshape(shape)
     handler.close()
+    return rows
+
+def readCsvDict(filename):
+    rows = []
+    if os.path.isfile(filename):
+        with open(filename, 'rb') as f:
+            lines = [line for line in f if not line.startswith("#")]
+            reader = csv.DictReader(lines, skipinitialspace=True)
+            rows = list(reader)
+            rows = parseNumbers(rows)
     return rows
 
 def readNetCDF(filename, params={}):
