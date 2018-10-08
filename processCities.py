@@ -30,6 +30,8 @@ OUTPUT_FILE = args.OUTPUT_FILE
 
 data = readCsvDict(INPUT_FILE)
 print("Founds %s rows from %s" % (len(data), INPUT_FILE))
+# pprint(data[100])
+# sys.exit(1)
 
 cities = []
 dataPoints = []
@@ -39,8 +41,8 @@ for i in range(POINTS):
     lat = lerp((90.0, -90.0), p)
     lat0 = lat - RADIUS
     lat1 = lat + RADIUS
-    matches = [d for d in data if lat0 <= d["lat"] <= lat1]
-    matches = sorted(matches, key=lambda d: d["population"], reverse=True)
+    matches = [d for d in data if lat0 <= d["lat"] <= lat1 and not isinstance(d["population"], basestring)]
+    matches = sorted(matches, key=lambda d: -d["population"])
     matches = matches[:MAX_CITIES_PER_POINT]
     indices = []
     for match in matches:
