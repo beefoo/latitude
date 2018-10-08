@@ -46,7 +46,8 @@ for i in range(POINTS):
     matches = matches[:MAX_CITIES_PER_POINT]
     indices = []
     for match in matches:
-        city = "%s, %s" % (match["city_ascii"], match["country"])
+        # city_ascii
+        city = "%s, %s" % (match["city"], match["country"])
         if city in cities:
             index = cities.index(city)
             indices.append(index)
@@ -70,4 +71,4 @@ dataOut = {
 
 with open(OUTPUT_FILE, 'w') as f:
     json.dump(dataOut, f)
-    print("Wrote data to %s" % OUTPUT_FILE)
+    print("Wrote %s cities to %s" % (len(cities), OUTPUT_FILE))
