@@ -343,8 +343,8 @@ var App = (function() {
       var value = v[i].value;
       dd.$value.text(Math.round(value*100) + "%");
       dd.$el.css('height', (value*100) + "%");
-      if (value <= 0) dd.$el.css('overflow', 'hidden');
-      else dd.$el.css('overflow', '');
+      if (value <= 0) dd.$el.css('display', 'none');
+      else dd.$el.css('display', '');
     })
 
   };
