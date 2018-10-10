@@ -1,63 +1,77 @@
+:root {
+  --header-height: 40px;
+}
+
 body {
   font: 16px sans-serif;
   color: white;
   background: #232326;
 }
 
-.app {
-  height: 2000vh;
-}
-
-.dashboard {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-
-.container {
-  display: block;
-  width: 100%;
-  height: 25vh;
-  box-sizing: border-box;
-}
-
-.cell {
-  float: left;
-  width: 100%;
-  height: 25vh;
-  box-sizing: border-box;
-  padding: 1rem;
-  display: flex;
-	flex-direction: column;
-}
-.cell.half {
-  width: 50%;
-}
-.cell.third {
-  width: 33.33333333%;
-}
-
-.cell h1,
-.cell h2 {
+h1,
+h2 {
   margin: 0;
   padding: 0;
   font-size: 1rem;
   letter-spacing: 0.1rem;
 }
-.cell h1 {
+h1 {
   font-size: 1.2rem;
 }
-.cell h2 {
+h2 {
   color: #bbb;
 }
-.data {
+a {
+  color: white;
+}
+
+.app {
+  height: 2000vh;
+}
+
+header {
   width: 100%;
-  flex: 1;
+  height: var(--header-height);
+  line-height: var(--header-height);
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: black;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.dashboard {
+  width: 100vw;
+  height: calc(100vh - var(--header-height));
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  height: calc((100vh - var(--header-height) - 50vw)/3);
+  box-sizing: border-box;
+  flex-direction: row;
+}
+.container.primary {
+  height: 50vw;
+}
+
+.cell {
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 1rem;
   position: relative;
   overflow: hidden;
-  margin-top: 0.5rem;
+}
+.data {
+
 }
 .map-highlight {
   position: absolute;
@@ -79,20 +93,16 @@ body {
 }
 
 @media screen and (orientation: landscape) {
-  .container {
+  .container,
+  .container.primary {
+    height: calc((100vh - var(--header-height))/2);
     float: left;
-    height: 50vh;
+    width: 50%;
   }
   .container.primary {
-    width: 40%;
+    width: calc(100vh - var(--header-height));
   }
   .container.secondary {
-    width: 60%;
-  }
-  .cell {
-    height: 50vh;
-  }
-  .container.tertiary .cell.third {
-    width: 20%;
+    width: calc(100vw - (100vh - var(--header-height)));
   }
 }

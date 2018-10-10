@@ -29,7 +29,7 @@
       "precision": 5
     },{
       "id": "water",
-      "title": "Water Area",
+      "title": "Fresh Water Area",
       "package": "gpw-v4-land-water-area-rev10_waterareakm_2pt5_min_asc.zip",
       "filename": "gpw_v4_land_water_area_rev10_waterareakm_2pt5_min.asc",
       "year": 2010,
