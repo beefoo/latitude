@@ -245,7 +245,7 @@ var App = (function() {
     this.$label.text(lat);
 
     // update map highlight
-    var top = lerp(0, 100-(100/180), scrollPercent);
+    var top = lerp(0, 100-(100/90), scrollPercent);
     this.$highlight.css("top", top+"%");
 
     // update bars
