@@ -115,6 +115,15 @@ header {
 }
 #cities {
   background: var(--gray);
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+#cities > div {
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  white-space: nowrap;
 }
 
 #population {

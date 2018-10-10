@@ -12,9 +12,9 @@ var App = (function() {
         {"el": "#temperature", "url": "data/temperature.json", "type": "bar"},
         {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar"},
         {"el": "#cities", "url": "data/cities.json", "type": "list"},
-        {"el": "#surface-type", "url": "data/land.json", "label": "Land", "type": "pie"},
-        {"el": "#surface-type", "label": "Water", "type": "pie"},
-        {"el": "#surface-type", "url": "data/ice.json", "label": "Ice", "type": "pie"}
+        {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie"},
+        {"el": "#surface", "label": "Water", "type": "pie"},
+        {"el": "#surface", "url": "data/ice.json", "label": "Ice", "type": "pie"}
       ]
     };
     this.opt = _.extend({}, defaults, config);
