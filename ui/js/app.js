@@ -110,6 +110,7 @@ var App = (function() {
       _this.data[i].$el = $el;
       _this.data[i].$bar = $el.find('.bar');
       _this.data[i].$value = $el.find('.value');
+      _this.data[i].$list = $el.find('.list');
       var url = d.url;
       if (url && url.endsWith(".csv")) deferreds.push(loadCSV(url, i));
       else if (url && url.endsWith(".json")) deferreds.push(loadJSON(url, i));
@@ -185,8 +186,8 @@ var App = (function() {
       var $el = $(key);
       _.each(results, function(r){
         var d = data[r.id];
-        var $del = $('<div><div class="label"></div></div>');
-        d.$label = $del.find('.label');
+        var $del = $('<div><div class="label">'+d.label+'</div><div class="value"></div></div>');
+        d.$value = $del.find('.value');
         d.$el = $del;
         $el.append(d.$el);
       });
@@ -274,9 +275,12 @@ var App = (function() {
       text = formatNumber(value);
       if (d.prepend) text = d.prepend + text;
       if (d.append) text += d.append;
+      d.$el.removeClass('noData');
+    } else {
+      d.$el.addClass('noData');
     }
     d.$value.text(text);
-    d.$bar.css("height", (nvalue*100) + "%")
+    d.$bar.css("transform", "scale3d(1,"+nvalue+",1)");
   };
 
   App.prototype.updateList = function(d, percent){
@@ -289,8 +293,13 @@ var App = (function() {
       html += '<div>' + item + '</div>';
     });
 
-    if (html.length <= 0) html = "<div>---</div>";
-    d.$el.html(html);
+    if (html.length <= 0) {
+      html = "<div>No data</div>";
+      d.$el.addClass('noData');
+    } else {
+      d.$el.removeClass('noData');
+    }
+    d.$list.html(html);
   };
 
   App.prototype.updatePie = function(d, percent){
@@ -299,10 +308,15 @@ var App = (function() {
     var index = Math.round((len-1) * percent);
     var v = d.data[index];
     var html = "";
+    var count = d.results.length;
 
     _.each(d.results, function(r, i){
       var dd = data[r.id];
-      dd.$label.text(v[i].label + ": " + Math.round(v[i].value*100) + "%")
+      var value = v[i].value;
+      dd.$value.text(Math.round(value*100) + "%");
+      dd.$el.css('height', (value*100) + "%");
+      if (value <= 0) dd.$el.css('overflow', 'hidden');
+      else dd.$el.css('overflow', '');
     })
 
   };
