@@ -5,11 +5,11 @@ var App = (function() {
   function App(config) {
     var defaults = {
       "data": [
-        {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar"},
-        {"el": "#emissions", "url": "data/emissions.json", "type": "bar"},
-        {"el": "#gdp", "url": "data/gdp.json", "type": "bar"},
+        {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar", "append": "°C"},
+        {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M"},
+        {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$"},
         {"el": "#population", "url": "data/pop_count.json", "type": "bar"},
-        {"el": "#temperature", "url": "data/temperature.json", "type": "bar"},
+        {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C"},
         {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar"},
         {"el": "#cities", "url": "data/cities.json", "type": "list"},
         {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie"},
@@ -21,12 +21,30 @@ var App = (function() {
     this.init();
   }
 
+  function formatNumber(value) {
+    var append = "";
+
+    if (value >= 1000000) {
+      append = "M";
+      value = Math.round(value / 1000000);
+    } else if (value >= 1000) {
+      append = "K";
+      value = Math.round(value / 1000);
+    }
+
+    return value.toLocaleString() + append;
+  }
+
   function lerp(a, b, percent) {
     return (1.0*b - a) * percent + a;
   }
 
   function lim(v, min, max) {
     return (Math.min(max, Math.max(min, v)));
+  }
+
+  function roundToNearest(value, nearest) {
+    return Math.round(value / nearest) * nearest;
   }
 
   function loadCSV(csvFilename, id){
@@ -90,8 +108,8 @@ var App = (function() {
       _this.data[i].index = i;
       var $el = $(d.el);
       _this.data[i].$el = $el;
+      _this.data[i].$bar = $el.find('.bar');
       _this.data[i].$value = $el.find('.value');
-      _this.data[i].$label = $el.find('.label');
       var url = d.url;
       if (url && url.endsWith(".csv")) deferreds.push(loadCSV(url, i));
       else if (url && url.endsWith(".json")) deferreds.push(loadJSON(url, i));
@@ -249,7 +267,16 @@ var App = (function() {
     var len = d.data.length;
     var index = Math.round((len-1) * percent);
     var v = d.data[index];
-    d.$label.text(v.value.toLocaleString());
+    var value = v.value;
+    var nvalue = v.norm;
+    var text = "No data";
+    if (!isNaN(value)) {
+      text = formatNumber(value);
+      if (d.prepend) text = d.prepend + text;
+      if (d.append) text += d.append;
+    }
+    d.$value.text(text);
+    d.$bar.css("height", (nvalue*100) + "%")
   };
 
   App.prototype.updateList = function(d, percent){
