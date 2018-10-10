@@ -1,5 +1,13 @@
 :root {
   --header-height: 40px;
+  --green: #2E7D32;
+  --red: #B71C1C;
+  --blue: #0277BD;
+  --orange: #E65100;
+  --violet: #512DA8;
+  --brown: #795548;
+  --gray: #455A64;
+  --light-gray: #CFD8DC;
 }
 
 body {
@@ -19,7 +27,7 @@ h1 {
   font-size: 1.2rem;
 }
 h2 {
-  color: #bbb;
+  color: rgba(255,255,255,0.7);
 }
 a {
   color: white;
@@ -70,8 +78,18 @@ header {
   position: relative;
   overflow: hidden;
 }
-.data {
+.container.secondary .cell {
+  width: 50%;
+}
+.container.tertiary .cell {
+  width: 33.3333333333%;
+}
 
+#map {
+  background: url(../img/land_shallow_topo_8192.png) no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 0;
 }
 .map-highlight {
   position: absolute;
@@ -90,6 +108,32 @@ header {
 .map-label.below {
   bottom: auto;
   top: -2rem;
+}
+
+#surface {
+
+}
+#cities {
+  background: var(--gray);
+}
+
+#population {
+  background: var(--blue);
+}
+#temperature {
+  background: var(--orange);
+}
+#vegetation {
+  background: var(--green);
+}
+#gdp {
+  background: var(--violet);
+}
+#emissions {
+  background: var(--brown);
+}
+#anomaly {
+  background: var(--red);
 }
 
 @media screen and (orientation: landscape) {
