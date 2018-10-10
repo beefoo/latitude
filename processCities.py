@@ -66,7 +66,9 @@ dataOut = {
     "filename": "worldcities.csv",
     "year": 2018,
     "ref": cities,
-    "data": dataPoints
+    "data": dataPoints,
+    "source": "SimpleMaps",
+    "sourceURL": "https://simplemaps.com/data/world-cities"
 }
 
 with open(OUTPUT_FILE, 'w') as f:

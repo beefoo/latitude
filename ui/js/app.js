@@ -14,7 +14,7 @@ var App = (function() {
         {"el": "#cities", "url": "data/cities.json", "type": "list"},
         {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie"},
         {"el": "#surface", "label": "Water", "type": "pie"},
-        {"el": "#surface", "url": "data/ice.json", "label": "Ice", "type": "pie"}
+        {"el": "#surface", "url": "data/ice.json", "label": "Ice sheet", "type": "pie"}
       ]
     };
     this.opt = _.extend({}, defaults, config);
@@ -109,8 +109,9 @@ var App = (function() {
       var $el = $(d.el);
       _this.data[i].$el = $el;
       _this.data[i].$bar = $el.find('.bar');
-      _this.data[i].$value = $el.find('.value');
       _this.data[i].$list = $el.find('.list');
+      _this.data[i].$pie = $el.find('.pie');
+      _this.data[i].$value = $el.find('.value');
       var url = d.url;
       if (url && url.endsWith(".csv")) deferreds.push(loadCSV(url, i));
       else if (url && url.endsWith(".json")) deferreds.push(loadJSON(url, i));
@@ -186,20 +187,38 @@ var App = (function() {
       p.$el.append($source);
     });
 
+    _.each(lists, function(p, i){
+      var meta = p.meta;
+      var $source = $('<div class="source"><a href="'+meta.sourceURL+'">'+meta.source+'</a>, '+meta.year+'</div>');
+      p.$el.append($source);
+    });
+
     _.each(pies, function(p, key){
       var results = _.sortBy(p.results, 'id');
       var dresults = _.filter(results, function(r){ return r.data; });
       var nresult = _.find(results, function(r){ return !r.data; });
       var count = dresults[0].data.data.length;
 
+      // create html
       var $el = $(key);
+      var $pie = $el.find(".pie");
       _.each(results, function(r){
         var d = data[r.id];
         var $del = $('<div><div class="label">'+d.label+'</div><div class="value"></div></div>');
         d.$value = $del.find('.value');
         d.$el = $del;
-        $el.append(d.$el);
+        $pie.append(d.$el);
       });
+
+      // add source
+      var sourcesHTML = _.map(dresults, function(r){
+        var source = r.data.source;
+        var url = r.data.sourceURL;
+        var year = r.data.year;
+        return '<a href="'+url+'">'+source+'</a>, '+year;
+      });
+      sourcesHTML = '<div class="source">'+sourcesHTML.join(". ")+"</div>";
+      $el.append($(sourcesHTML));
 
       var pieData = [];
       _.times(count, function(i){
