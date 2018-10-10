@@ -6,7 +6,8 @@
       "package": "gpw-v4-national-identifier-grid-rev10_2pt5_min_asc.zip",
       "filename": "gpw_v4_national_identifier_grid_rev10_2pt5_min.asc",
       "year": 2010,
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-national-identifier-grid-rev10",
+      "source": "NASA SEDAC",
+      "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-national-identifier-grid-rev10",
       "bounds": [85.0, -60.0],
       "params": {
         "emptyValue": -9999,
@@ -19,7 +20,8 @@
       "package": "gpw-v4-land-water-area-rev10_landareakm_2pt5_min_asc.zip",
       "filename": "gpw_v4_land_water_area_rev10_landareakm_2pt5_min.asc",
       "year": 2010,
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10",
+      "source": "NASA SEDAC",
+      "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10",
       "bounds": [85.0, -60.0],
       "params": {
         "emptyValue": -9999,
@@ -33,7 +35,8 @@
       "package": "gpw-v4-land-water-area-rev10_waterareakm_2pt5_min_asc.zip",
       "filename": "gpw_v4_land_water_area_rev10_waterareakm_2pt5_min.asc",
       "year": 2010,
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10",
+      "source": "NASA SEDAC",
+      "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10",
       "bounds": [85.0, -60.0],
       "params": {
         "emptyValue": -9999,
@@ -53,7 +56,8 @@
         "emptyValue": "-3.4e+38"
       },
       "bounds": [85.0, -60.0],
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10",
+      "source": "NASA SEDAC",
+      "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-adjusted-to-2015-unwpp-country-totals-rev10",
       "reduceMode": "sum",
       "precision": 0,
       "fillValue": 0
@@ -69,7 +73,8 @@
         "emptyValue": "-3.4e+38"
       },
       "bounds": [85.0, -60.0],
-      "source": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10",
+      "source": "NASA SEDAC",
+      "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-rev10",
       "reduceMode": "mean",
       "precision": 0,
       "fillValue": 0,
@@ -85,7 +90,9 @@
       "params": {
         "emptyValue": 99999.0
       },
-      "source": [
+      "source": "NASA NEO",
+      "sourceURL": "https://neo.sci.gsfc.nasa.gov/",
+      "sourceURLs": [
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD11C1_M_LSTDA",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD11C1_M_LSTDA/",
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MYD28M",
@@ -102,7 +109,9 @@
       "params": {
         "emptyValue": 99999.0
       },
-      "source": [
+      "source": "NASA NEO",
+      "sourceURL": "https://neo.sci.gsfc.nasa.gov/",
+      "sourceURLs": [
         "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M",
         "ftp://neoftp.sci.gsfc.nasa.gov/csv/MOD_NDVI_M/"
       ],
@@ -119,7 +128,8 @@
         "emptyValue": 9999.0,
         "valueKey": "TEMPANOMALY"
       },
-      "source": "https://data.giss.nasa.gov/gistemp/maps/",
+      "source": "NASA GISS",
+      "sourceURL": "https://data.giss.nasa.gov/gistemp/maps/",
       "reduceMode": "mean",
       "precision": 2,
       "unit": "°C"
@@ -132,7 +142,8 @@
         "emptyValue": 0.0,
         "shape": [180, 360]
       },
-      "source": "http://cdiac.ess-dive.lbl.gov/epubs/ndp/ndp058/ndp058_v2016.html",
+      "source": "CDIAC",
+      "sourceURL": "http://cdiac.ess-dive.lbl.gov/epubs/ndp/ndp058/ndp058_v2016.html",
       "reduceMode": "sum",
       "fillValue": 0,
       "unit": "million metric tons of carbon"
@@ -141,7 +152,8 @@
       "title": "GDP per capita",
       "filename": "GDP_per_capita_PPP_1990_2015_v2.nc",
       "year": 2015,
-      "source": "https://datadryad.org/resource/doi:10.5061/dryad.dk1j0",
+      "source": "Kummu M, Taka M, Guillaume JHA",
+      "sourceURL": "https://datadryad.org/resource/doi:10.5061/dryad.dk1j0",
       "params": {
         "valueKey": "GDP_per_capita_PPP",
         "zKey": -1,
@@ -157,9 +169,8 @@
       "params": {
         "emptyValue": 99999.0
       },
-      "source": [
-        "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=ICESAT_ELEV_G"
-      ],
+      "source": "NASA NEO",
+      "sourceURL": "https://neo.sci.gsfc.nasa.gov/view.php?datasetId=ICESAT_ELEV_G",
       "reduceMode": "percent",
       "precision": 3,
       "fillValues": [

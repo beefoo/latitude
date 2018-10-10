@@ -143,6 +143,7 @@ var App = (function() {
       var id = result.id;
       var d = data[id];
       var rdata = result.data;
+      d.meta = _.omit(rdata, 'data');
 
       if (d.type==="bar") {
         var bdata = result.data.data;
@@ -175,6 +176,14 @@ var App = (function() {
         });
         d.data = cdata;
       }
+    });
+    var bars = _.filter(data, function(d){ return d.type==="bar"; });
+    var lists = _.filter(data, function(d){ return d.type==="list"; });
+
+    _.each(bars, function(p, i){
+      var meta = p.meta;
+      var $source = $('<div class="source"><a href="'+meta.sourceURL+'">'+meta.source+'</a>, '+meta.year+'</div>');
+      p.$el.append($source);
     });
 
     _.each(pies, function(p, key){
@@ -214,8 +223,8 @@ var App = (function() {
       pies[key].results = results;
     });
 
-    this.bars = _.filter(data, function(d){ return d.type==="bar"; });
-    this.lists = _.filter(data, function(d){ return d.type==="list"; });
+    this.bars = bars;
+    this.lists = lists;
     this.pies = pies;
   };
 

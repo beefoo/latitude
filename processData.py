@@ -142,9 +142,20 @@ for f in files:
         filenames = [filenames]
     datas = []
 
-    # Check if file exists already
+    # Check if file exists already, just overwrite metadata
     if os.path.isfile(outFile) and not OVERWRITE:
-        print("%s already exists. Skipping." % outFile)
+        print("%s already exists." % outFile)
+        existingData = {}
+        with open(outFile) as fin:
+            existingData = json.load(fin)
+
+        existingData.update(f)
+
+        with open(outFile, 'w') as fout:
+            json.dump(existingData, fout)
+            print("Wrote metadata to %s" % outFile)
+        continue
+
     else:
         for filename in filenames:
             pathname = INPUT_DIR + filename
