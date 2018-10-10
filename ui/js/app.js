@@ -100,6 +100,10 @@ var App = (function() {
     });
   };
 
+  App.prototype.closeModals = function(){
+    $('.modal').removeClass('active');
+  };
+
   App.prototype.loadData = function(){
     var _this = this;
     var deferreds = [];
@@ -131,6 +135,19 @@ var App = (function() {
 
     $(window).on("scroll", function(e) {
       _this.onScroll();
+    });
+
+    var firstLoad = true;
+    $('.modal-close').on("click", function(e){
+      if (firstLoad) _this.onFirstLoad();
+      _this.closeModals();
+      firstLoad = false;
+    });
+
+    $('.modal-open').on("click", function(e){
+      e.preventDefault();
+      _this.closeModals();
+      _this.openModal($(this).attr("href"));
     });
   };
 
@@ -247,6 +264,10 @@ var App = (function() {
     this.pies = pies;
   };
 
+  App.prototype.onFirstLoad = function(){
+    $('.start-button').text("Continue");
+  };
+
   App.prototype.onReady = function(){
     this.onResize();
     this.loadListeners();
@@ -290,6 +311,10 @@ var App = (function() {
     _.each(this.lists, function(p){
       _this.updateList(p, scrollPercent);
     });
+  };
+
+  App.prototype.openModal = function(el){
+    $(el).addClass("active");
   };
 
   App.prototype.updateBar = function(d, percent){
