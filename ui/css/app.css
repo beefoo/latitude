@@ -85,6 +85,9 @@ nav a {
   overflow: hidden;
   transition: opacity 0.5s;
 }
+.cell.has-chart {
+  cursor: pointer;
+}
 .cell.noData {
   opacity: 0.5;
 }
@@ -280,6 +283,7 @@ nav a {
   max-width: 660px;
   width: auto;
   padding: 1rem 1rem 5rem;
+  position: relative;
 }
 .modal.active {
   display: flex;
@@ -310,6 +314,40 @@ nav a {
   letter-spacing: 0.01rem;
   color: rgba(255,255,255,0.8);
   line-height: 1.5;
+}
+
+.modal > div.chart-content {
+  padding: 0;
+}
+.chart {
+  overflow: visible;
+}
+.chart img {
+  width: 100%;
+  height: auto;
+}
+.chart-bounds {
+  position: absolute;
+}
+.chart-line {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  height: 0.25rem;
+  background: var(--red);
+  margin-top: -0.125rem;
+}
+.chart-label {
+  height: 2rem;
+  line-height: 2rem;
+  top: -2rem;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: right;
+  color: black;
+  font-size: 1.4rem;
 }
 
 @media screen and (orientation: landscape) {

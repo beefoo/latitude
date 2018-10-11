@@ -22,6 +22,8 @@ parser.add_argument('-out', dest="OUTPUT_DIR", default="data/", help="Output dir
 parser.add_argument('-overwrite', dest="OVERWRITE", default=0, type=int, help="Overwrite existing data?")
 parser.add_argument('-draw', dest="DRAW", default=0, type=int, help="Draw data files?")
 parser.add_argument('-plot', dest="PLOT", default=0, type=int, help="Plot data?")
+parser.add_argument('-plotdir', dest="PLOT_DIR", default="ui/img/plot/", help="Plot directory")
+parser.add_argument('-imgdir', dest="IMAGE_DIR", default="output/", help="Image directory")
 args = parser.parse_args()
 
 # Parse arguments
@@ -33,6 +35,8 @@ OUTPUT_DIR = args.OUTPUT_DIR
 OVERWRITE = args.OVERWRITE > 0
 DRAW = args.DRAW > 0
 PLOT = args.PLOT > 0
+PLOT_DIR = args.PLOT_DIR
+IMAGE_DIR = args.IMAGE_DIR
 
 # ncDump("data/downloads/GDP_per_capita_PPP_1990_2015_v2.nc")
 # ncDump("data/downloads/gpw_v4_une_atotpopbt_dens_2pt5_min.nc")
@@ -40,7 +44,7 @@ PLOT = args.PLOT > 0
 # sys.exit()
 
 # Make sure output dir exist
-outDirs = [os.path.dirname(OUTPUT_DIR), os.path.dirname("output/")]
+outDirs = [os.path.dirname(OUTPUT_DIR), os.path.dirname(PLOT_DIR), os.path.dirname(IMAGE_DIR)]
 for outDir in outDirs:
     if not os.path.exists(outDir):
         os.makedirs(outDir)
@@ -183,7 +187,7 @@ for f in files:
 
     if data is not None:
         if DRAW:
-            drawData(data, "output/map_" + f["id"] + ".png")
+            drawData(data, IMAGE_DIR + "map_" + f["id"] + ".png")
 
         # Write to file
         bounds = (90, -90) if "bounds" not in f else tuple(f["bounds"])
@@ -198,7 +202,7 @@ for f in files:
             label = f["title"]
             if "unit" in f:
                 label += " ("+f["unit"]+")"
-            drawPlot([(1.0*i/(count-1), d) for i, d in enumerate(latitudeData) if d != fillValue], "output/plot_" + f["id"] + ".png", title, label)
+            drawPlot([(1.0*i/(count-1), d) for i, d in enumerate(latitudeData) if d != fillValue], PLOT_DIR + "plot_" + f["id"] + ".png", title, label)
 
         with open(outFile, 'w') as fout:
             f["data"] = latitudeData

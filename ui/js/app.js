@@ -8,7 +8,7 @@ var App = (function() {
         {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar", "append": "°C"},
         {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M"},
         {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$"},
-        {"el": "#population", "url": "data/pop_count.json", "type": "bar"},
+        {"el": "#population", "url": "data/pop_count.json", "type": "bar", "chart": "ui/img/plot/plot_pop_count.png"},
         {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C"},
         {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar"},
         {"el": "#cities", "url": "data/cities.json", "type": "list"},
@@ -109,13 +109,25 @@ var App = (function() {
     var deferreds = [];
     var deferred = $.Deferred();
     _.each(this.data, function(d, i){
-      _this.data[i].index = i;
+      var entry = _this.data[i];
+      entry.index = i;
       var $el = $(d.el);
-      _this.data[i].$el = $el;
-      _this.data[i].$bar = $el.find('.bar');
-      _this.data[i].$list = $el.find('.list');
-      _this.data[i].$pie = $el.find('.pie');
-      _this.data[i].$value = $el.find('.value');
+
+      entry.$el = $el;
+      entry.$bar = $el.find('.bar');
+      entry.$list = $el.find('.list');
+      entry.$pie = $el.find('.pie');
+      entry.$value = $el.find('.value');
+
+      // init chart
+      if (d.chart) {
+        entry.chart = new Chart({
+          image: d.chart
+        });
+        $el.addClass("has-chart");
+        $el.attr("data-chart", "#" + entry.chart.getId());
+      }
+
       var url = d.url;
       if (url && url.endsWith(".csv")) deferreds.push(loadCSV(url, i));
       else if (url && url.endsWith(".json")) deferreds.push(loadJSON(url, i));
@@ -148,6 +160,20 @@ var App = (function() {
       e.preventDefault();
       _this.closeModals();
       _this.openModal($(this).attr("href"));
+    });
+
+    $('.modal').on("click", function(e){
+      e.preventDefault();
+      console.log(e);
+
+      var $target = $(e.target);
+      if ($target.hasClass("chart")) _this.closeModals();
+    });
+
+    $('.has-chart').on("click", function(e){
+      e.preventDefault();
+      _this.closeModals();
+      _this.openModal($(this).attr("data-chart"));
     });
   };
 
@@ -334,6 +360,7 @@ var App = (function() {
     }
     d.$value.text(text);
     d.$bar.css("transform", "scale3d(1,"+nvalue+",1)");
+    if (d.chart) d.chart.onScroll(percent, text);
   };
 
   App.prototype.updateList = function(d, percent){
