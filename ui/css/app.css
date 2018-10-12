@@ -119,14 +119,18 @@ nav a {
   flex-direction: row;
   align-items: flex-end;
 }
-.content .value {
-  padding-top: 1rem;
-  font-size: 1.4rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-}
+
 .content .label,
 .source {
+  font-size: 0.7rem;
+}
+.cell h2 {
   font-size: 0.8rem;
+}
+.content .value {
+  padding-top: 1rem;
+  font-size: 2.4rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 .source {
   position: absolute;
@@ -138,7 +142,6 @@ nav a {
   padding: 0 1rem;
   z-index: 5;
   display: none;
-  font-size: 0.7rem;
 }
 .source,
 .source a {
@@ -384,10 +387,20 @@ nav a {
   .content .title {
     height: calc((100vh - var(--header-height))/8);
   }
-  .content .value {
-    font-size: 2.4rem;
-  }
   .source {
     display: block;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .cell h2 {
+    font-size: 0.7rem;
+  }
+  .content .value {
+    font-size: 1.4rem;
+  }
+  .content .label,
+  .source {
+    font-size: 0.5rem;
   }
 }
