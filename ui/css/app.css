@@ -1,7 +1,7 @@
 :root {
   --header-height: 40px;
-  --body-width: 99vw;
-  --body-hwidth: 49.5vw;
+  --body-width: 98.4vw;
+  --body-hwidth: 49.2vw;
   --green: #486B00;
   --red: #A43820;
   --light-red: #d64a2f;
@@ -53,7 +53,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  background: black;
+  /* background: black; */
   box-sizing: border-box;
   padding: 0 1rem;
   display: flex;
@@ -86,13 +86,19 @@ nav a {
 .cell {
   flex-grow: 1;
   box-sizing: border-box;
-  padding: 1rem;
+  margin: 0 0 0.4rem 0.4rem;
+  padding: 0.6rem;
   position: relative;
   overflow: hidden;
   transition: opacity 0.5s;
+  border-radius: 0.4rem;
+  transition: transform 0.2s ease-in-out;
 }
 .cell.has-chart {
   cursor: pointer;
+}
+.cell.has-chart:hover {
+  transform: translateY(-2px);
 }
 .cell.noData {
   opacity: 0.5;
@@ -132,6 +138,7 @@ nav a {
   padding: 0 1rem;
   z-index: 5;
   display: none;
+  font-size: 0.7rem;
 }
 .source,
 .source a {
@@ -315,6 +322,7 @@ nav a {
   color: white;
   padding: 0.33rem 2rem;
   margin: 1rem 0 2rem;
+  border-radius: 0.4rem;
 }
 .modal button:hover {
   background: var(--light-red);
