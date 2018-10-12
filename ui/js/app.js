@@ -124,8 +124,8 @@ var App = (function() {
         entry.chart = new Chart({
           image: d.chart
         });
-        $el.addClass("has-chart");
-        $el.attr("data-chart", "#" + entry.chart.getId());
+        entry.$value.addClass("modal-open");
+        entry.$value.attr("href", "#" + entry.chart.getId());
       }
 
       var url = d.url;
@@ -164,16 +164,8 @@ var App = (function() {
 
     $('.modal').on("click", function(e){
       e.preventDefault();
-      console.log(e);
-
       var $target = $(e.target);
       if ($target.hasClass("chart")) _this.closeModals();
-    });
-
-    $('.has-chart').on("click", function(e){
-      e.preventDefault();
-      _this.closeModals();
-      _this.openModal($(this).attr("data-chart"));
     });
   };
 
@@ -305,19 +297,28 @@ var App = (function() {
   };
 
   App.prototype.onScroll = function(){
+
     var _this = this;
     var scrollPercent = $(window).scrollTop() / this.windowDelta;
 
-    var lat = lerp(90, -90, scrollPercent);
-    lat = round(lat, 1);
+    var lat0 = lerp(90, -89, scrollPercent);
+    var lat1 = lat0 - 1;
 
     // update label
-    if (lat < 0) this.$label.addClass("below");
+    if (lat0 < 0) this.$label.addClass("below");
     else this.$label.removeClass("below");
-    if (lat < 0) lat = -lat + "°S";
-    else if (lat > 0) lat += "°N";
-    else lat += "°";
-    this.$label.text(lat);
+
+    function formatLat(lat) {
+      lat = round(lat, 1);
+      if (lat < 0) lat = -lat + "°S";
+      else if (lat > 0) lat += "°N";
+      else lat += "°";
+      return lat;
+    }
+    lat0 = formatLat(lat0);
+    lat1 = formatLat(lat1);
+
+    this.$label.html(lat0 + " <small>to</small> " + lat1);
 
     // update map highlight
     var top = lerp(0, 100-(100/90), scrollPercent);

@@ -101,12 +101,6 @@ nav a:first-child {
   border-radius: 0.4rem;
   transition: transform 0.2s ease-in-out;
 }
-.cell.has-chart {
-  cursor: pointer;
-}
-.cell.has-chart:hover {
-  transform: translateY(-2px);
-}
 .cell.noData {
   opacity: 0.5;
 }
@@ -127,8 +121,13 @@ nav a:first-child {
   align-items: flex-end;
 }
 .content .value {
+  display: block;
+  text-decoration: none;
   padding-top: 1rem;
   text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+.content .value:hover {
+  text-decoration: underline;
 }
 
 .source {
