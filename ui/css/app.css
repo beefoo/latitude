@@ -101,8 +101,11 @@ nav a {
 .content {
   position: relative;
 }
-.content h2 {
-  height: calc((100vh - var(--header-height) - var(--body-hwidth))/9);
+.content .title {
+  height: calc((100vh - var(--header-height) - var(--body-hwidth))/12);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
 }
 .content .value {
   font-size: 1.6rem;
@@ -363,8 +366,8 @@ nav a {
   .container.secondary {
     width: calc(var(--body-width) - (100vh - var(--header-height)));
   }
-  .content h2 {
-    height: calc((100vh - var(--header-height))/6);
+  .content .title {
+    height: calc((100vh - var(--header-height))/8);
   }
   .content .value {
     font-size: 3rem;
