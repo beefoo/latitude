@@ -1,3 +1,11 @@
+function formatLat(lat) {
+  lat = round(lat, 1);
+  if (lat < 0) lat = -lat + "°S";
+  else if (lat > 0) lat += "°N";
+  else lat += "°";
+  return lat;
+}
+
 function formatNumber(value) {
   var append = "";
 

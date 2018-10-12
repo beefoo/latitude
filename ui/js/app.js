@@ -5,16 +5,16 @@ var App = (function() {
   function App(config) {
     var defaults = {
       "data": [
-        {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar", "append": "°C", "chart": "ui/img/plot/plot_anomaly.png"},
-        {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M", "chart": "ui/img/plot/plot_emissions.png"},
-        {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$", "chart": "ui/img/plot/plot_gdp.png"},
-        {"el": "#population", "url": "data/pop_count.json", "type": "bar", "chart": "ui/img/plot/plot_pop_count.png"},
-        {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C", "chart": "ui/img/plot/plot_temperature.png"},
-        {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar", "chart": "ui/img/plot/plot_vegetation.png"},
+        {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar", "append": "°C", "chart": true},
+        {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M", "chart": true},
+        {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$", "chart": true},
+        {"el": "#population", "url": "data/pop_count.json", "type": "bar", "chart": true},
+        {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C", "chart": true},
+        {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar", "chart": true},
         {"el": "#cities", "url": "data/cities.json", "type": "list"},
-        {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie", "chart": "ui/img/plot/plot_land.png"},
+        {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie", "chart": true},
         {"el": "#surface", "label": "Water", "type": "pie"},
-        {"el": "#surface", "url": "data/ice.json", "label": "Ice sheet", "type": "pie", "chart": "ui/img/plot/plot_ice.png"}
+        {"el": "#surface", "url": "data/ice.json", "label": "Ice sheet", "type": "pie", "chart": true}
       ]
     };
     this.opt = _.extend({}, defaults, config);
@@ -24,13 +24,14 @@ var App = (function() {
   App.prototype.init = function(){
     var _this = this;
 
-    this.data = this.opt.data;
+    var data = this.opt.data;
+    this.dashboard = new Dashboard({data: _.map(data, _.clone) });
+    this.chart = new Chart({data: _.map(data, _.clone)});
+    this.data = data;
+
     var dataPromise = this.loadData();
-
-    this.dashboard = new Dashboard({data: this.data});
-
-    $.when.apply($, [dataPromise]).then(function(data){
-      _this.onDataLoaded(data);
+    $.when.apply($, [dataPromise]).then(function(results){
+      _this.onDataLoaded(results);
       _this.onReady();
     });
   };
@@ -77,7 +78,7 @@ var App = (function() {
     $('.modal-open').on("click", function(e){
       e.preventDefault();
       _this.closeModals();
-      _this.openModal($(this).attr("href"));
+      _this.openModal($(this));
     });
 
     $('.modal').on("click", function(e){
@@ -89,6 +90,7 @@ var App = (function() {
 
   App.prototype.onDataLoaded = function(results){
     this.dashboard.loadData(results);
+    this.chart.loadData(results);
   };
 
   App.prototype.onFirstLoad = function(){
@@ -110,10 +112,18 @@ var App = (function() {
     var scrollPercent = $(window).scrollTop() / this.windowDelta;
 
     this.dashboard.onScroll(scrollPercent);
+    this.chart.onScroll(scrollPercent);
   };
 
-  App.prototype.openModal = function(el){
-    $(el).addClass("active");
+  App.prototype.openModal = function($el){
+    var el = $el.attr("href");
+
+    if ($el.hasClass("value")) {
+      this.chart.show(parseInt($el.attr("data-index")));
+    } else {
+      $(el).addClass("active");
+    }
+
   };
 
   return App;

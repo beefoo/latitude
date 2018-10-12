@@ -112,13 +112,26 @@
       </div>
     </div>
 
-    <div id="charts"></div>
+    <div id="chart" class="chart modal" aria-labelledby="chart-label" aria-modal="true">
+      <div>
+        <h2 id="chart-title"></h2>
+        <div id="chart-container" class="chart-container">
+          <svg id="chart-content"></svg>
+          <div id="chart-line" class="chart-line">
+            <div id="chart-lat" class="chart-label"></div>
+            <div id="chart-value" class="chart-label"></div>
+            <div id="chart-circle" class="chart-circle"></div>
+          </div>
+        </div>
+        <p id="chart-description"></p>
+      </div>
+    </div>
 
   </div>
 
   <script src="ui/js/vendor/jquery-3.3.1.min.js"></script>
   <script src="ui/js/vendor/underscore-min.js"></script>
-  <script src="ui/js/vendor/Chart.min.js"></script>
+  <script src="ui/js/vendor/d3.min.js"></script>
   <script src="ui/js/vendor/Pizzicato.min.js"></script>
 
   <script src="ui/js/utils.js"></script>

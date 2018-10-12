@@ -143,20 +143,17 @@ var Dashboard = (function() {
       entry.$pie = entry.$el.find('.pie');
       entry.$value = entry.$el.find('.value');
 
-      // init chart
-      if (d.chart && entry.$value.length) {
-        entry.chart = new Chart({
-          image: d.chart
-        });
+      if (d.chart) {
+        entry.$value.attr("href", "#chart");
+        entry.$value.attr("data-index", i);
         entry.$value.addClass("modal-open");
-        entry.$value.attr("href", "#" + entry.chart.getId());
       }
     });
   };
 
   Dashboard.prototype.onScroll = function(scrollPercent) {
     var _this = this;
-    
+
     this.updateMap(scrollPercent);
 
     // update bars
@@ -183,13 +180,6 @@ var Dashboard = (function() {
     if (lat0 < 0) this.$mapLabel.addClass("below");
     else this.$mapLabel.removeClass("below");
 
-    function formatLat(lat) {
-      lat = round(lat, 1);
-      if (lat < 0) lat = -lat + "°S";
-      else if (lat > 0) lat += "°N";
-      else lat += "°";
-      return lat;
-    }
     lat0 = formatLat(lat0);
     lat1 = formatLat(lat1);
 
@@ -217,7 +207,6 @@ var Dashboard = (function() {
     }
     d.$value.text(text);
     d.$bar.css("transform", "scale3d(1,"+nvalue+",1)");
-    if (d.chart) d.chart.onScroll(percent, text);
   };
 
   Dashboard.prototype.updateList = function(d, percent){
@@ -255,7 +244,6 @@ var Dashboard = (function() {
       dd.$el.css('height', (value*100) + "%");
       if (value <= 0) dd.$el.css('display', 'none');
       else dd.$el.css('display', '');
-      if (dd.chart) dd.chart.onScroll(percent, text);
     })
 
   };
