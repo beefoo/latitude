@@ -19,6 +19,7 @@
   --brown: #805A3B;
   --gray: #46464C;
   --light-gray: #CFD8DC;
+  --dark-gray: #232326;
   --yellow: #ffd402;
 }
 
@@ -31,7 +32,7 @@ body {
   font-family: Comfortaa, sans-serif;
   font-size: 12px;
   color: white;
-  background: #232326;
+  background: var(--dark-gray);
 }
 
 h1,
@@ -207,6 +208,8 @@ nav a:first-child {
 .pie > div:nth-child(2) {
   background: var(--blue);
   z-index: 1;
+  border-top: 0.2rem solid var(--dark-gray);
+  border-bottom: 0.2rem solid var(--dark-gray);
 }
 .pie > div:last-child {
   flex-grow: 1;
