@@ -12,9 +12,9 @@ var App = (function() {
         {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C", "chart": "ui/img/plot/plot_temperature.png"},
         {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar", "chart": "ui/img/plot/plot_vegetation.png"},
         {"el": "#cities", "url": "data/cities.json", "type": "list"},
-        {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie"},
+        {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie", "chart": "ui/img/plot/plot_land.png"},
         {"el": "#surface", "label": "Water", "type": "pie"},
-        {"el": "#surface", "url": "data/ice.json", "label": "Ice sheet", "type": "pie"}
+        {"el": "#surface", "url": "data/ice.json", "label": "Ice sheet", "type": "pie", "chart": "ui/img/plot/plot_ice.png"}
       ]
     };
     this.opt = _.extend({}, defaults, config);
@@ -120,7 +120,7 @@ var App = (function() {
       entry.$value = $el.find('.value');
 
       // init chart
-      if (d.chart) {
+      if (d.chart && entry.$value.length) {
         entry.chart = new Chart({
           image: d.chart
         });
@@ -239,8 +239,15 @@ var App = (function() {
       var $pie = $el.find(".pie");
       _.each(results, function(r){
         var d = data[r.id];
-        var $del = $('<div><div class="label">'+d.label+'</div><div class="value"></div></div>');
+        var $del = $('<div><div class="label">'+d.label+'</div><a class="value"></a></div>');
         d.$value = $del.find('.value');
+        if (d.chart) {
+          d.chart = new Chart({
+            image: d.chart
+          });
+          d.$value.addClass("modal-open");
+          d.$value.attr("href", "#" + d.chart.getId());
+        }
         d.$el = $del;
         $pie.append(d.$el);
       });
@@ -394,10 +401,12 @@ var App = (function() {
     _.each(d.results, function(r, i){
       var dd = data[r.id];
       var value = v[i].value;
-      dd.$value.text(Math.round(value*100) + "%");
+      var text = Math.round(value*100) + "%"
+      dd.$value.text(text);
       dd.$el.css('height', (value*100) + "%");
       if (value <= 0) dd.$el.css('display', 'none');
       else dd.$el.css('display', '');
+      if (dd.chart) dd.chart.onScroll(percent, text);
     })
 
   };
