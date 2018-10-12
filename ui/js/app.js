@@ -104,6 +104,7 @@ var App = (function() {
 
   App.prototype.onResize = function(){
     this.windowDelta = $(document).height() - $(window).height();
+    this.chart.onResize();
     this.onScroll();
   };
 

@@ -359,6 +359,7 @@ nav a:first-child {
   height: 80vh;
   width: 100%;
   overflow: visible;
+  padding: 1rem 2rem;
 }
 .chart-container {
   width: 100%;
@@ -422,7 +423,13 @@ nav a:first-child {
   margin-top: -6px;
   margin-left: -6px;
 }
-
+.chart button.modal-close {
+  margin: 0;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding-top: 0.3rem;
+}
 .chart p {
   padding-top: 1rem;
 }
@@ -461,6 +468,9 @@ h2 {
 .modal button {
   font-size: var(--font-size-medium);
 }
+.chart button.modal-close {
+  font-size: var(--font-size-small);
+}
 
 @media screen and (orientation: portrait) {
   header h1 {
@@ -471,6 +481,23 @@ h2 {
     display: flex;
     flex-grow: 1;
     line-height: calc(var(--header-height)/2);
+  }
+  .chart > div {
+    box-sizing: border-box;
+  }
+  .chart-label {
+    top: -2.5rem;
+    width: 100%;
+    text-align: right;
+    left: 0;
+    right: auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+  .chart-label:first-child {
+    left: 0;
+    right: auto;
+    text-align: left;
   }
 }
 

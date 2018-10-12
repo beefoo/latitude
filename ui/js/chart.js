@@ -61,25 +61,28 @@ var Chart = (function() {
     this.$value = $(el + "-value");
     this.$circle = $(el + "-circle");
 
+    var svg = d3.select(el + "-content");
+    var container = svg.append("g");
+    var path = container.append("path")
+      .attr("class", "dataLine");
+
+    this.svg = svg;
+    this.path = path;
+
+    this.onResize();
+  };
+
+  Chart.prototype.onResize = function(){
     var width = this.$container.width();
     var height = this.$container.height();
     this.width = width;
     this.height = height;
 
-    // set the ranges
-    var x = d3.scaleLinear().range([0, width]);
-    var y = d3.scaleLinear().range([height, 0]);
-
-    var svg = d3.select(el + "-content")
-      .attr("width", width)
+    this.svg.attr("width", width)
       .attr("height", height);
 
-    var container = svg.append("g");
-
-    var path = container.append("path")
-      .attr("class", "dataLine");
-
-    this.path = path;
+    var x = d3.scaleLinear().range([0, width]);
+    var y = d3.scaleLinear().range([height, 0]);
     this.xRange = x;
     this.yRange = y;
   };
