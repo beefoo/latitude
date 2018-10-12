@@ -407,6 +407,9 @@ h2 {
 .map-label {
   font-size: var(--font-size-medium);
 }
+.pie .label {
+  font-size: var(--font-size-small);
+}
 .pie .value {
   font-size: var(--font-size-large);
 }
