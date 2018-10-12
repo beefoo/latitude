@@ -135,7 +135,7 @@
       "unit": "°C"
     },{
       "id": "emissions",
-      "title": "Annual Fossil-Fuel CO₂ Emissions",
+      "title": "Fossil-Fuel CO₂ Emissions",
       "filename": "gridcar.2013",
       "year": 2013,
       "params": {

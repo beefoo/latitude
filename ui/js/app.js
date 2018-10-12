@@ -5,12 +5,12 @@ var App = (function() {
   function App(config) {
     var defaults = {
       "data": [
-        {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar", "append": "°C"},
-        {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M"},
-        {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$"},
+        {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar", "append": "°C", "chart": "ui/img/plot/plot_anomaly.png"},
+        {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M", "chart": "ui/img/plot/plot_emissions.png"},
+        {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$", "chart": "ui/img/plot/plot_gdp.png"},
         {"el": "#population", "url": "data/pop_count.json", "type": "bar", "chart": "ui/img/plot/plot_pop_count.png"},
-        {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C"},
-        {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar"},
+        {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C", "chart": "ui/img/plot/plot_temperature.png"},
+        {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar", "chart": "ui/img/plot/plot_vegetation.png"},
         {"el": "#cities", "url": "data/cities.json", "type": "list"},
         {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie"},
         {"el": "#surface", "label": "Water", "type": "pie"},

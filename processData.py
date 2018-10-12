@@ -128,11 +128,17 @@ def drawPlot(xy, filename, title, label):
     plt.figure(figsize=(10,10))
     x = [lerp((90, -90), v[0]) for v in xy]
     y = [v[1] for v in xy]
+    maxY = max(y)
+    appendString = ""
+    if maxY > 1000000:
+        y = [v/1000000.0 for v in y]
+        appendString = " (millions)"
     plt.plot(y, x)
     plt.title(title)
-    plt.xlabel(label)
+    plt.xlabel(label+appendString)
     plt.ylabel("Degrees Latitude")
-    plt.yticks(np.arange(-90, 91, step=30))
+    plt.yticks(np.arange(-90, 95, step=30))
+    plt.ylim((-90, 90))
     plt.savefig(filename)
     plt.close()
     print("Saved %s" % filename)
