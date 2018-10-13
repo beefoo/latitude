@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import csv
+import gdal
 import gzip
 from netCDF4 import Dataset
 import numpy as np
@@ -34,6 +35,18 @@ def ascDump(filename):
         lines = lines[:6]
         for line in lines:
             print(line.strip())
+
+def tifDump(filename):
+    ds = gdal.Open(filename)
+    print(ds.GetMetadata())
+    band = ds.GetRasterBand(1)
+    arr = band.ReadAsArray()
+    rows, cols = arr.shape
+    arr_min = arr.min()
+    arr_max = arr.max()
+    print("Shape: %s x %s" % (cols, rows))
+    print("Range: %s - %s" % (arr_min, arr_max))
+    ds = None
 
 def ncDump(filename, verb=True):
     nc_fid = Dataset(filename, 'r')
@@ -110,6 +123,13 @@ def readCsvDict(filename):
             rows = parseNumbers(rows)
     return rows
 
+def readGeoTIFF(filename, params={}):
+    ds = gdal.Open(filename)
+    band = ds.GetRasterBand(1)
+    data = band.ReadAsArray()
+    ds = None
+    return data
+
 def readNetCDF(filename, params={}):
     ds = Dataset(filename, 'r')
     valueKey = params["valueKey"]
@@ -129,8 +149,8 @@ def readFile(fn, package=None, params={}):
     # check for .zip
     if not os.path.isfile(fn) and package:
         zf = zipfile.ZipFile(package, 'r')
-        # special case: NetCDF cannot be read via filehandler; must extract
-        if ext == "nc":
+        # special case: NetCDF and GeoTiff cannot be read via filehandler; must extract
+        if ext in ["nc", "tif"]:
             zf.extract(str(fn))
             tempFile = fn
         else:
@@ -148,6 +168,8 @@ def readFile(fn, package=None, params={}):
         results = readCsv(fn, handler=fileHandler, params=params)
     elif ext == "nc":
         results = readNetCDF(fn, params=params)
+    elif ext == "tif":
+        results = readGeoTIFF(fn, params=params)
     else:
         results = readText(fn, handler=fileHandler, params=params)
 
@@ -155,7 +177,8 @@ def readFile(fn, package=None, params={}):
         results = np.flip(results, axis=0)
 
     emptyValue = None if "emptyValue" not in params else params["emptyValue"]
-    results = replaceEmpty(results, emptyValue)
+    if emptyValue is not None:
+        results = replaceEmpty(results, emptyValue)
 
     if tempFile:
         os.remove(tempFile)

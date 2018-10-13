@@ -176,6 +176,17 @@
       "fillValues": [
         {"bounds": [-85, -90], "value": 1.0}
       ]
+    },{
+      "id": "mammals",
+      "title": "Mammal richness",
+      "package": "mammalia-all.zip",
+      "filename": "all_mammals.tif",
+      "year": 2015,
+      "params": {},
+      "source": "NASA SEDAC",
+      "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/species-global-mammal-richness-2015",
+      "reduceMode": "mean",
+      "unit": "mammal species per square km"
     }
   ]
 }

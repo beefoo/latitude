@@ -38,6 +38,7 @@ PLOT = args.PLOT > 0
 PLOT_DIR = args.PLOT_DIR
 IMAGE_DIR = args.IMAGE_DIR
 
+# tifDump("data/downloads/mammalia-all/all_mammals.tif")
 # ncDump("data/downloads/GDP_per_capita_PPP_1990_2015_v2.nc")
 # ncDump("data/downloads/gpw_v4_une_atotpopbt_dens_2pt5_min.nc")
 # ascDump("data/downloads/gpw_v4_national_identifier_grid_rev10_2pt5_min.asc")
@@ -104,7 +105,7 @@ def getLatitudeData(data, resolution, points, mode="mean", precision=0, bounds=(
         results.append(result)
     return results
 
-def drawData(d, filename):
+def drawData(d, filename, maxWidth=3600):
     if os.path.isfile(filename):
         return False
     print("Processing %s..." % filename)
@@ -112,9 +113,15 @@ def drawData(d, filename):
     maxValue = np.nanmax(d)
     print("Value range: %s - %s" % (minValue, maxValue))
     shape = d.shape
-    pixels = d.reshape(-1)
-    pixels = np.array([valueToColor(value, minValue, maxValue) for value in pixels])
     h, w = shape
+    if w > maxWidth:
+        h = int(round(h * (1.0 * maxWidth / w)))
+        w = maxWidth
+        print("Image too big... resizing to %s x %s" % (w, h))
+        pixels = np.resize(d, (h, w))
+    pixels = d.reshape(-1)
+    print("Converting data to colors...")
+    pixels = np.array([valueToColor(value, minValue, maxValue) for value in pixels])
     pixels = pixels.reshape((h, w, 3))
     im = Image.fromarray(pixels.astype('uint8'), 'RGB')
     print("Saving %s..." % filename)
