@@ -215,9 +215,12 @@ nav a:first-child {
 .pie > div:last-child {
   flex-grow: 1;
   background: var(--light-gray);
-  color: black;
   z-index: 2;
   border-top: 0.2rem solid var(--dark-gray);
+}
+.pie > div:last-child,
+.pie > div:last-child a {
+  color: black;
 }
 .pie .label {
   width: 25%;
