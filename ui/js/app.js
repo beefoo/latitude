@@ -27,6 +27,7 @@ var App = (function() {
     var data = this.opt.data;
     this.dashboard = new Dashboard({data: _.map(data, _.clone) });
     this.chart = new Chart({data: _.map(data, _.clone)});
+    this.sound = new Sound({data: _.map(data, _.clone)});
     this.data = data;
 
     var dataPromise = this.loadData();
@@ -95,6 +96,7 @@ var App = (function() {
 
   App.prototype.onFirstLoad = function(){
     $('.start-button').text("Continue");
+    this.sound.onFirstLoad();
   };
 
   App.prototype.onReady = function(){
