@@ -11,7 +11,7 @@ var App = (function() {
         {"el": "#population", "url": "data/pop_count.json", "type": "bar", "chart": true},
         {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C", "chart": true},
         {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar", "chart": true},
-        {"el": "#cities", "url": "data/cities.json", "type": "list"},
+        {"el": "#cities", "url": "data/cities.json", "type": "list", "map": true},
         {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie", "chart": true},
         {"el": "#surface", "label": "Ocean", "type": "pie", "title": "Ocean area", "year": 2010, "source": "NASA SEDAC", "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10", "chart": true},
         {"el": "#surface", "url": "data/ice.json", "label": "Ice sheet", "type": "pie", "chart": true}
@@ -29,6 +29,7 @@ var App = (function() {
     this.dashboard = new Dashboard({data: _.map(data, _.clone) });
     this.chart = new Chart({data: _.map(data, _.clone)});
     this.sound = new Sound({data: _.map(data, _.clone)});
+    this.map = new Map({data: _.map(data, _.clone)});
     this.data = data;
 
     var dataPromise = this.loadData();
@@ -73,9 +74,12 @@ var App = (function() {
 
     var firstLoad = true;
     $('.modal-close').on("click", function(e){
-      if (firstLoad) _this.onFirstLoad();
+      if (firstLoad) {
+        _this.onFirstLoad();
+        firstLoad = false;
+      }
       _this.closeModals();
-      firstLoad = false;
+
     });
 
     $('.modal-open').on("click", function(e){
@@ -87,13 +91,20 @@ var App = (function() {
     $('.modal').on("click", function(e){
       e.preventDefault();
       var $target = $(e.target);
-      if ($target.hasClass("chart")) _this.closeModals();
+      if ($target.hasClass("modal")) {
+        if (firstLoad) {
+          _this.onFirstLoad();
+          firstLoad = false;
+        }
+        _this.closeModals();
+      }
     });
   };
 
   App.prototype.onDataLoaded = function(results){
     this.dashboard.loadData(results);
     this.chart.loadData(results);
+    this.map.loadData(results);
   };
 
   App.prototype.onFirstLoad = function(){
@@ -123,8 +134,12 @@ var App = (function() {
   App.prototype.openModal = function($el){
     var el = $el.attr("href");
 
-    if ($el.hasClass("value")) {
+    if ($el.hasClass("modal-open-chart")) {
       this.chart.show(parseInt($el.attr("data-index")));
+
+    } else if ($el.hasClass("modal-open-map")) {
+      this.map.show(parseInt($el.attr("data-index")));
+
     } else {
       $(el).addClass("active");
     }

@@ -4,7 +4,7 @@ var Chart = (function() {
 
   function Chart(config) {
     var defaults = {
-      el: "#chart"
+      el: "#chart-modal"
     };
     this.opt = _.extend({}, defaults, config);
     this.init();
@@ -40,7 +40,6 @@ var Chart = (function() {
         results.push(newResult);
       });
     });
-    console.log(results)
 
     _.each(results, function(result){
       var id = result.id;

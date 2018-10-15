@@ -101,8 +101,7 @@ var Dashboard = (function() {
       var $el = $(d.el);
 
       if (d.type==="pie") {
-        var $pieSlice = $('<div><div class="label">'+d.label+'</div><a class="value"></a></div>');
-        var $value = $pieSlice.find('.value');
+        var $pieSlice = $('<div><div class="label">'+d.label+'</div><a class="value modal-open"></a></div>');
         entry.$el = $pieSlice;
         $el.find(".pie").append($pieSlice);
       } else {
@@ -113,11 +112,17 @@ var Dashboard = (function() {
       entry.$list = entry.$el.find('.list');
       entry.$pie = entry.$el.find('.pie');
       entry.$value = entry.$el.find('.value');
+      entry.$modalLink = entry.$el.find('.modal-open');
 
       if (d.chart) {
-        entry.$value.attr("href", "#chart");
-        entry.$value.attr("data-index", i);
-        entry.$value.addClass("modal-open");
+        entry.$modalLink.attr("href", "#chart-modal");
+        entry.$modalLink.attr("data-index", i);
+        entry.$modalLink.addClass("modal-open-chart");
+
+      } else if (d.map) {
+        entry.$modalLink.attr("href", "#map-modal");
+        entry.$modalLink.attr("data-index", i);
+        entry.$modalLink.addClass("modal-open-map");
       }
     });
   };

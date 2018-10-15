@@ -428,7 +428,8 @@ nav a:first-child {
   margin-top: -6px;
   margin-left: -6px;
 }
-.chart button.modal-close {
+.chart button.modal-close,
+.map button.modal-close {
   margin: 0;
   position: fixed;
   top: 1rem;
@@ -437,6 +438,22 @@ nav a:first-child {
 }
 .chart p {
   padding-top: 1rem;
+}
+
+
+.map > div {
+  width: 60vw;
+  overflow: visible;
+  padding: 1rem 2rem;
+  max-width: none;
+}
+.map-container {
+  width: 100%;
+  height: 30vw;
+  position: relative;
+  background: url(../img/BlankMap-Equirectangular.svg.png) no-repeat;
+  background-position: center;
+  background-size: 100% auto;
 }
 
 /* font sizes in the same place */

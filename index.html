@@ -42,6 +42,7 @@
           <div class="content">
             <h2>Most populous cities</h2>
             <div class="list"></div>
+            <p><a class="modal-open">View on map</a></p>
           </div>
         </div>
       </div>
@@ -51,21 +52,21 @@
           <div class="bar"></div>
           <div class="content">
             <div class="title"><h2>Population</h2></div>
-            <a class="value"></a>
+            <a class="value modal-open"></a>
           </div>
         </div>
         <div id="temperature" class="cell">
           <div class="bar"></div>
           <div class="content">
             <div class="title"><h2>Surface temperature</h2></div>
-            <a class="value"></a>
+            <a class="value modal-open"></a>
           </div>
         </div>
         <div id="vegetation" class="cell">
           <div class="bar"></div>
           <div class="content">
             <div class="title"><h2>Vegetation</h2></div>
-            <a class="value"></a>
+            <a class="value modal-open"></a>
             <div class="label">Vegetation index (<a href="https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index">NDVI</a>)</div>
           </div>
         </div>
@@ -76,14 +77,14 @@
           <div class="bar"></div>
           <div class="content">
             <div class="title"><h2>GDP per capita</h2></div>
-            <a class="value"></a>
+            <a class="value modal-open"></a>
           </div>
         </div>
         <div id="emissions" class="cell">
           <div class="bar"></div>
           <div class="content">
             <div class="title"><h2>Fossil-Fuel CO₂ Emissions</h2></div>
-            <a class="value"></a>
+            <a class="value modal-open"></a>
             <div class="label">metric tons of carbon</div>
           </div>
         </div>
@@ -91,7 +92,7 @@
           <div class="bar"></div>
           <div class="content">
             <div class="title"><h2>Temperature anomaly</h2></div>
-            <a class="value"></a>
+            <a class="value modal-open"></a>
             <div class="label">warmer than 20th century average</div>
           </div>
         </div>
@@ -112,18 +113,29 @@
       </div>
     </div>
 
-    <div id="chart" class="chart modal" aria-labelledby="chart-label" aria-modal="true">
+    <div id="chart-modal" class="chart modal" aria-labelledby="chart-title" aria-modal="true">
       <div>
-        <h2 id="chart-title"></h2>
-        <div id="chart-container" class="chart-container">
-          <svg id="chart-content"></svg>
-          <div id="chart-line" class="chart-line">
-            <div id="chart-lat" class="chart-label"></div>
-            <div id="chart-value" class="chart-label"></div>
-            <div id="chart-circle" class="chart-circle"></div>
+        <h2 id="chart-modal-title"></h2>
+        <div id="chart-modal-container" class="chart-container">
+          <svg id="chart-modal-content"></svg>
+          <div id="chart-modal-line" class="chart-line">
+            <div id="chart-modal-lat" class="chart-label"></div>
+            <div id="chart-modal-value" class="chart-label"></div>
+            <div id="chart-modal-circle" class="chart-circle"></div>
           </div>
         </div>
-        <p id="chart-description"></p>
+        <p id="chart-modal-description"></p>
+        <button class="modal-close">close</button>
+      </div>
+    </div>
+
+    <div id="map-modal" class="map modal" aria-labelledby="map-modal-title" aria-modal="true">
+      <div>
+        <h2 id="map-modal-title"></h2>
+        <div id="map-modal-container" class="map-container">
+          <div id="map-modal-labels" class="map-labels"></div>
+        </div>
+        <p id="map-modal-description"></p>
         <button class="modal-close">close</button>
       </div>
     </div>
@@ -138,6 +150,7 @@
   <script src="ui/js/utils.js"></script>
   <script src="ui/js/chart.js"></script>
   <script src="ui/js/dashboard.js"></script>
+  <script src="ui/js/map.js"></script>
   <script src="ui/js/sound.js"></script>
   <script src="ui/js/app.js"></script>
 </body>
