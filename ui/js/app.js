@@ -13,10 +13,11 @@ var App = (function() {
         {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar", "chart": true},
         {"el": "#cities", "url": "data/cities.json", "type": "list"},
         {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie", "chart": true},
-        {"el": "#surface", "label": "Water", "type": "pie"},
+        {"el": "#surface", "label": "Ocean", "type": "pie", "title": "Ocean area", "year": 2010, "source": "NASA SEDAC", "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10", "chart": true},
         {"el": "#surface", "url": "data/ice.json", "label": "Ice sheet", "type": "pie", "chart": true}
       ]
     };
+
     this.opt = _.extend({}, defaults, config);
     this.init();
   }
@@ -53,7 +54,8 @@ var App = (function() {
       else if (url && url.endsWith(".json")) deferreds.push(loadJSON(url, i));
     })
     $.when.apply(null, deferreds).done(function() {
-      deferred.resolve(arguments);
+      var args = Array.prototype.slice.call(arguments);
+      deferred.resolve(args);
     });
     return deferred;
   };

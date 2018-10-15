@@ -20,8 +20,6 @@ var Dashboard = (function() {
   Dashboard.prototype.loadData = function(results) {
     var _this = this;
     var data = this.data;
-    var pies = _.filter(data, function(d){ return d.type==="pie" && !d.url; });
-    pies = _.object(_.map(pies, function(p){ return [p.el, {results: [{id: p.index}]}]; }));
 
     _.each(results, function(result){
       var id = result.id;
@@ -43,11 +41,6 @@ var Dashboard = (function() {
           }
         });
         d.data = newData;
-      }
-
-      if (d.type==="pie") {
-        if (_.has(pies, d.el)) pies[d.el].results.push(result)
-        else pies[d.el] = {results: [result]}
       }
 
       if (d.type==="list") {
@@ -76,11 +69,10 @@ var Dashboard = (function() {
       p.$el.append($source);
     });
 
+    var pies = getPieData(data, results);
     _.each(pies, function(p, key){
       var results = _.sortBy(p.results, 'id');
       var dresults = _.filter(results, function(r){ return r.data; });
-      var nresult = _.find(results, function(r){ return !r.data; });
-      var count = dresults[0].data.data.length;
 
       // create html
       var $el = $(key);
@@ -94,27 +86,6 @@ var Dashboard = (function() {
       });
       sourcesHTML = '<div class="source">'+sourcesHTML.join(". ")+"</div>";
       $el.append($(sourcesHTML));
-
-      var pieData = [];
-      _.times(count, function(i){
-        var pd = [];
-        var total = 0
-        _.each(dresults, function(r){
-          var d = data[r.id];
-          var value = r.data.data[i];
-          if (value==="-") value = 0;
-          pd.push({id: r.id, label: d.label, value: value});
-          total += value;
-        });
-        var difference = 1.0 - total;
-        difference = lim(difference, 0, 1);
-        pd.push({id: nresult.id, label: data[nresult.id].label, value: difference});
-        pd = _.sortBy(pd, 'id');
-        pieData.push(pd);
-      });
-
-      pies[key].data = pieData;
-      pies[key].results = results;
     });
 
     this.bars = bars;

@@ -24,6 +24,24 @@ var Chart = (function() {
     var _this = this;
     var data = this.data;
 
+    var pies = getPieData(data, results);
+    _.each(pies, function(pie, key){
+      var nresults = _.filter(pie.results, function(r){ return !r.data; });
+      var pdata = pie.data;
+      _.each(nresults, function(r){
+        var id = r.id;
+        var d = data[id];
+        var rdata = _.map(pdata, function(pd){
+          var match = _.findWhere(pd, {id: id});
+          return match.value;
+        });
+        var newResult = {id: id};
+        newResult.data = _.extend(d, {data: rdata});
+        results.push(newResult);
+      });
+    });
+    console.log(results)
+
     _.each(results, function(result){
       var id = result.id;
       var d = data[id];
@@ -47,6 +65,8 @@ var Chart = (function() {
       d.data = lineData;
       d.cleanData = _.filter(lineData, function(ld) { return ld.x !== "-"; });
     });
+
+
   };
 
   Chart.prototype.loadUI = function(){
