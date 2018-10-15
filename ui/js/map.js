@@ -31,6 +31,19 @@ var Map = (function() {
 
       var rdata = result.data;
       d.meta = _.omit(rdata, 'data');
+
+      var cdata = rdata.data;
+      var ref = rdata.ref;
+      cdata = _.map(cdata, function(dlist){
+        return _.map(dlist, function(i){
+          return {
+            "label": ref[i][0],
+            "x": (norm(ref[i][1], -180, 180) * 100) + "%",
+            "y": (norm(ref[i][2], 90, -90) * 100) + "%"
+          };
+        })
+      });
+      d.data = cdata;
     });
   };
 
@@ -42,6 +55,7 @@ var Map = (function() {
     this.$description = $(el + "-description");
     this.$container = $(el + "-container");
     this.$labels = $(el + "-labels");
+    this.$lat = $(el + "-lat");
   };
 
   Map.prototype.onScroll = function(scrollPercent) {
@@ -50,6 +64,18 @@ var Map = (function() {
 
     var d = this.currentData;
     var percent = this.scrollPercent;
+
+    var len = d.data.length;
+    var index = Math.round((len-1) * percent);
+    var v = d.data[index];
+
+    this.$lat.text(formatLat(lerp(-90, 90, percent)));
+    this.$lat.css("top", (percent*100) + "%");
+
+    var labelsHTML = _.map(v, function(vv){
+      return '<div style="left: '+vv.x+';top: '+vv.y+'"><div>'+vv.label+'</div></div>'
+    });
+    this.$labels.html(labelsHTML);
   };
 
   Map.prototype.show = function(index){
@@ -62,6 +88,7 @@ var Map = (function() {
 
     this.$title.text(meta.title + " by latitude (" + meta.year + ")");
     this.$description.html('Source: <a href="'+meta.sourceURL+'">'+meta.source+'</a>');
+
 
     this.$map.addClass("active");
   };

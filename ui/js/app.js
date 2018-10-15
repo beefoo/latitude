@@ -129,6 +129,7 @@ var App = (function() {
 
     this.dashboard.onScroll(scrollPercent);
     this.chart.onScroll(scrollPercent);
+    this.map.onScroll(scrollPercent);
   };
 
   App.prototype.openModal = function($el){

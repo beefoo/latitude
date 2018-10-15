@@ -440,7 +440,6 @@ nav a:first-child {
   padding-top: 1rem;
 }
 
-
 .map > div {
   width: 60vw;
   overflow: visible;
@@ -454,6 +453,33 @@ nav a:first-child {
   background: url(../img/BlankMap-Equirectangular.svg.png) no-repeat;
   background-position: center;
   background-size: 100% auto;
+}
+.map-lat {
+  position: absolute;
+  left: -6vw;
+  width: 5vw;
+  height: 2rem;
+  line-height: 2rem;
+  margin-top: -1rem;
+  color: white;
+  text-align: right;
+}
+.map-labels > div {
+  position: absolute;
+  width: 0.2vw;
+  height: 0.2vw;
+  margin-left: -0.1vw;
+  margin-top: -0.1vw;
+  background: var(--yellow);
+  border-radius: 50%;
+}
+.map-labels > div > div {
+  margin-top: 0.2vw;
+  margin-left: 0.1vw;
+  white-space: nowrap;
+  transform-origin: left top;
+  transform: rotate(45deg);
+  background: black;
 }
 
 /* font sizes in the same place */
@@ -469,7 +495,8 @@ h2 {
 .content .value {
   font-size: var(--font-size-large);
 }
-.chart-label {
+.chart-label,
+.map-lat {
   font-size: var(--font-size-medium);
 }
 .map-label {
@@ -492,6 +519,9 @@ h2 {
 }
 .chart button.modal-close {
   font-size: var(--font-size-small);
+}
+.map-labels > div > div {
+  font-size: var(--font-size-xsmall);
 }
 
 @media screen and (orientation: portrait) {

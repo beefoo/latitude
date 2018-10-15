@@ -53,7 +53,7 @@ for i in range(POINTS):
             indices.append(index)
         else:
             indices.append(len(cities))
-            cities.append(city)
+            cities.append([city, match["lng"], match["lat"]])
     dataPoints.append(indices)
     if len(indices) <= 0:
         if int(lat) not in noMatch:

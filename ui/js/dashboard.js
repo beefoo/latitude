@@ -48,7 +48,7 @@ var Dashboard = (function() {
         var ref = result.data.ref;
         cdata = _.map(cdata, function(dlist){
           return _.map(dlist, function(i){
-            return ref[i];
+            return ref[i][0];
           })
         });
         d.data = cdata;
