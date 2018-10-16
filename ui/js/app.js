@@ -89,7 +89,6 @@ var App = (function() {
     });
 
     $('.modal').on("click", function(e){
-      e.preventDefault();
       var $target = $(e.target);
       if ($target.hasClass("modal")) {
         if (firstLoad) {
