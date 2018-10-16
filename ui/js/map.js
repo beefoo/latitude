@@ -35,13 +35,15 @@ var Map = (function() {
       var cdata = rdata.data;
       var ref = rdata.ref;
       cdata = _.map(cdata, function(dlist){
-        return _.map(dlist, function(i){
+        var newList = _.map(dlist, function(i){
           return {
             "label": ref[i][0],
-            "x": (norm(ref[i][1], -180, 180) * 100) + "%",
-            "y": (norm(ref[i][2], 90, -90) * 100) + "%"
+            "sort": -ref[i][1],
+            "x": norm(ref[i][1], -180, 180) * 100,
+            "y": norm(ref[i][2], 90, -90) * 100
           };
-        })
+        });
+        return _.sortBy(newList, "sort");
       });
       d.data = cdata;
     });
@@ -71,11 +73,19 @@ var Map = (function() {
 
     this.$lat.text(formatLat(lerp(-90, 90, percent)));
     this.$lat.css("top", (percent*100) + "%");
+    var className = percent < 0.5 ? "below": "above";
+    var offsetStep = 3;
 
-    var labelsHTML = _.map(v, function(vv){
-      return '<div style="left: '+vv.x+';top: '+vv.y+'"><div>'+vv.label+'</div></div>'
+    var labelsHTML = _.map(v, function(vv, i){
+      var html = '';
+      html += '<div style="left: '+vv.x+'%;top: '+vv.y+'%">';
+        html += '<div class="'+className+'" style="height: '+(offsetStep*i)+'vmin">';
+          html += '<div>'+vv.label+'</div>';
+        html += '</div>';
+      html += '</div>';
+      return html;
     });
-    this.$labels.html(labelsHTML);
+    this.$labels.html(labelsHTML.join(""));
   };
 
   Map.prototype.show = function(index){

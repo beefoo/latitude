@@ -474,12 +474,24 @@ nav a:first-child {
   border-radius: 50%;
 }
 .map-labels > div > div {
-  margin-top: 0.2vw;
-  margin-left: 0.1vw;
+  position: absolute;
+  left: 0.1vw;
+  top: 0.2vw;
+  width: 10vw;
   white-space: nowrap;
-  transform-origin: left top;
-  transform: rotate(45deg);
-  background: black;
+  border-left: 1px solid var(--yellow);
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+}
+.map-labels > div > div.above {
+  align-items: flex-start;
+  top: auto;
+  bottom: 0.2vw;
+}
+.map-labels > div > div > div {
+  margin-left: 0.2rem;
+  margin-bottom: -0.5rem;
 }
 
 /* font sizes in the same place */
