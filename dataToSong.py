@@ -28,7 +28,30 @@ DURATION = args.DURATION
 BEAT_DUR = args.BEAT_DUR
 BEAT_DIVISIONS = args.BEAT_DIVISIONS
 
-DATA_TO_LOAD = ["anomaly", "countries", "emissions", "gdp", "ice", "land", "pop_count", "temperature", "vegetation"]
+dataMappings = {
+    "distortion": { "data": "emissions", "range": (0, 20) }, # more emissions = more distortion
+    "dur": { "data": "temperature", "range": (0.0, 1.0) }, # higher temperature = shorter notes (more staccato)
+    "highfreq": { "data": "pop_count", "range": (2, 11) }, # more population = more high-frequency instruments
+    "lowfreq": { "data": "vegetation", "range": (2, 11) }, # more vegetation = more low-frequency instruments
+    "reverb": { "data": "ice", "range": (75.0, 25.0) }, # more ice = less reverb
+    "stretch": { "data": "land", "range": (4.0, 1.0) }, # more land = less stretch
+    "tempo": { "data": "anomaly", "range": (1.0, 2.0) }, # more anomaly = faster tempo
+    "velocity": { "data": "gdp", "range": (0.0, 1.0) } # more gdp = more high-velocity sounds
+}
+
+phrases = [
+    {"count": BEAT_DIVISIONS},
+    {"count": BEAT_DIVISIONS, "offset": 0.5},
+    {"count": BEAT_DIVISIONS, "offset": 0.25},
+    {"count": BEAT_DIVISIONS, "offset": 0.75},
+    {"count": BEAT_DIVISIONS, "offset": 0.125},
+    {"count": BEAT_DIVISIONS, "offset": 0.625},
+    {"count": BEAT_DIVISIONS, "offset": 0.375},
+    {"count": BEAT_DIVISIONS, "offset": 0.875},
+    {"count": BEAT_DIVISIONS/2, "gainPhase": (0, 1.0), "phase": 12},
+    {"count": BEAT_DIVISIONS/2, "offset": 0.25, "gainPhase": (0, 1.0), "phase": 12},
+    {"count": BEAT_DIVISIONS/2, "offset": 0.125, "gainPhase": (0, 1.0), "phase": 12}
+]
 
 UNIT = BEAT_DUR / BEAT_DIVISIONS
 print("Base unit is %sms" % UNIT)
@@ -51,20 +74,25 @@ def parseData(d, defaultValue=0.0):
         })
     return pd
 
-data = {}
-for key in DATA_TO_LOAD:
-    filename = DATA_DIR % key
+for key in dataMappings:
+    dataKey = dataMappings[key]["data"]
+    filename = DATA_DIR % dataKey
     with open(filename) as f:
         contents = json.load(f)
-        data[key] = parseData(contents["data"])
-print("Retrieved data from %s files" % len(DATA_TO_LOAD))
+        dataMappings[key]["data"] = parseData(contents["data"])
 
 samples = readCsvDict(INPUT_FILE)
 sampleCount = len(samples)
 print("Found %s samples" % sampleCount)
 
+INDEX_KEYS = ["filename"]
+for key in INDEX_KEYS:
+    values = list(set([s[key] for s in samples]))
+    for i, sample in enumerate(samples):
+        samples[i]["i"+key] = values.index(sample[key])
+
 # Normalize certain keys
-NORMALIZE_KEYS = ["dur", "hz", "power", "octave"]
+NORMALIZE_KEYS = ["ifilename", "dur", "hz", "power", "octave"]
 for key in NORMALIZE_KEYS:
     values = [s[key] for s in samples]
     minValue = min(values)
