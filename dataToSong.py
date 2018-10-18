@@ -17,6 +17,7 @@ parser.add_argument('-dir', dest="DATA_DIR", default="data/%s.json", help="Input
 parser.add_argument('-dur', dest="DURATION", default=3600, type=int, help="Target duration in seconds")
 parser.add_argument('-bdur', dest="BEAT_DUR", default=1000, type=int, help="Duration of a beat in milliseconds")
 parser.add_argument('-bdiv', dest="BEAT_DIVISIONS", default=8, type=int, help="How much to divide an individual beat, e.g. 2 = half, 4 = quarters, 8 = eights, etc")
+parser.add_argument('-bps', dest="BEATS_PER_SECTION", default=12, type=int, help="How many beats per section")
 parser.add_argument('-out', dest="OUTPUT_FILE", default="output/composition.csv", help="Output .csv file")
 args = parser.parse_args()
 
@@ -27,6 +28,7 @@ OUTPUT_FILE = args.OUTPUT_FILE
 DURATION = args.DURATION
 BEAT_DUR = args.BEAT_DUR
 BEAT_DIVISIONS = args.BEAT_DIVISIONS
+BEATS_PER_SECTION = args.BEATS_PER_SECTION
 
 dataMappings = {
     "distortion": { "data": "emissions", "range": (0, 20) }, # more emissions = more distortion
@@ -57,7 +59,19 @@ UNIT = BEAT_DUR / BEAT_DIVISIONS
 print("Base unit is %sms" % UNIT)
 if BEAT_DUR % BEAT_DIVISIONS > 0:
     print("Warning: %s does not divide into %s units evenly" % (BEAT_DUR, BEAT_DIVISIONS))
+SECTION_DURATION = BEATS_PER_SECTION * BEAT_DUR
+SECTIONS = DURATION * 1000.0 / SECTION_DURATION
+print("Section count: %s" % SECTIONS)
+print("Section duration: %s" % time.strftime('%H:%M:%S', time.gmtime(SECTION_DURATION/1000)))
 print("Target time: %s" % time.strftime('%H:%M:%S', time.gmtime(DURATION)))
+
+if SECTIONS % 1.0 > 0:
+    print("Sections do not divide evenly, rounding...")
+    SECTIONS = int(round(SECTIONS))
+    DURATION = int(round(SECTIONS * SECTION_DURATION / 1000.0))
+    print("New target time: %s" % time.strftime('%H:%M:%S', time.gmtime(DURATION)))
+else:
+    SECTIONS = int(SECTIONS)
 
 def parseData(d, defaultValue=0.0):
     dataCount = len(d)
@@ -99,3 +113,29 @@ for key in NORMALIZE_KEYS:
     maxValue = max(values)
     for i, sample in enumerate(samples):
         samples[i]["n"+key] = norm(sample[key], (minValue, maxValue))
+
+def fetch(mapping, amount, rangeKey="range"):
+    value = lerpFetch(mapping["data"], progress)
+    return lerp(mapping[rangeKey], value["nvalue"])
+
+ms = 0
+for section in range(SECTIONS):
+    progress = 1.0 * section / (SECTIONS-1)
+
+    # determine this section's tempo
+    tempo = fetch(dataMappings["tempo"], progress)
+    sectionBeatMs = int(round(tempo*BEAT_DUR))
+    sectionDuration = sectionBeatMs * BEATS_PER_SECTION
+
+    # retrieve other features
+    distortion = fetch(dataMappings["distortion"], progress)
+    dur = fetch(dataMappings["dur"], progress)
+    highfreqCount = int(round(fetch(dataMappings["highfreq"], progress)))
+    lowfreqCount = int(round(fetch(dataMappings["lowfreq"], progress)))
+    reverb = fetch(dataMappings["reverb"], progress)
+    stretch = fetch(dataMappings["stretch"], progress)
+    velocity = fetch(dataMappings["velocity"], progress)
+
+    ms += sectionDuration
+
+print("Actual time: %s" % time.strftime('%H:%M:%S', time.gmtime(ms/1000)))

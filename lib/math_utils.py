@@ -24,6 +24,11 @@ def lerp(ab, amount):
     a, b = ab
     return (b-a) * amount + a
 
+def lerpFetch(arr, amount):
+    arrLen = len(arr)
+    index = int(round(1.0 * amount * (arrLen-1)))
+    return arr[index]
+
 def norm(value, ab):
     a, b = ab
     return 1.0 * (value - a) / (b - a)
