@@ -2,6 +2,7 @@
 
 import math
 import numpy as np
+import time
 
 def combineData(data):
     if len(data) <= 0:
@@ -20,14 +21,12 @@ def combineData(data):
                 combined[index] = value
     return combined
 
+def formatSeconds(s):
+    return time.strftime('%H:%M:%S', time.gmtime(s))
+
 def lerp(ab, amount):
     a, b = ab
     return (b-a) * amount + a
-
-def lerpFetch(arr, amount):
-    arrLen = len(arr)
-    index = int(round(1.0 * amount * (arrLen-1)))
-    return arr[index]
 
 def norm(value, ab):
     a, b = ab

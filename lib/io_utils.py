@@ -194,3 +194,14 @@ def replaceEmpty(arr, emptyValue):
     arr = ma.filled(arr, np.nan)
     arr = arr.reshape(shape)
     return arr
+
+def writeCsv(filename, arr, headings):
+    with open(filename, 'wb') as f:
+        writer = csv.writer(f)
+        writer.writerow(headings)
+        for i, d in enumerate(arr):
+            row = []
+            for h in headings:
+                row.append(d[h])
+            writer.writerow(row)
+    print("Wrote %s rows to %s" % (len(arr), filename))
