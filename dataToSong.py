@@ -120,14 +120,14 @@ def fetch(mapping, amount, rangeKey="range"):
     value = lerpFetch(mapping["data"], progress)
     return lerp(mapping[rangeKey], value["nvalue"])
 
-def getSequenceSteps(sample, phrase, ms, beatMs, beatDivisions, durationMs):
+def getSequenceSteps(sample, phrase, startms, beatMs, beatDivisions, durationMs):
     steps = []
     unitMs = int(round(1.0 * beatMs / beatDivisions))
     offset = int(round(phrase["offset"]*beatMs)) if "offset" in phrase else 0
     stepMs = phrase["count"] * unitMs
     ms = offset
-    while ms < (durationMs - stepMs):
-        step = { "ms": ms }
+    while ms < durationMs:
+        step = { "ms": startms + ms }
         step.update(sample)
         steps.append(step)
         ms += stepMs
@@ -140,7 +140,7 @@ for section in range(SECTIONS):
 
     # determine this section's tempo
     tempo = fetch(dataMappings["tempo"], progress)
-    sectionBeatMs = int(round(tempo*BEAT_DUR))
+    sectionBeatMs = int(round(BEAT_DUR/tempo))
     sectionDuration = sectionBeatMs * BEATS_PER_SECTION
 
     # retrieve other features
@@ -169,8 +169,8 @@ for section in range(SECTIONS):
 
     # sort by frequency, then select
     ssamples = sorted(ssamples, key=lambda k: k["nhz"])
-    lfSamples = ssamples[:lowfreqCount]
-    hfSamples = ssamples[-highfreqCount:]
+    lfSamples = ssamples[:lowfreqCount] if lowfreqCount > 0 else []
+    hfSamples = ssamples[-highfreqCount:] if highfreqCount > 0 else []
 
     # add features to samples
     lfSamples = updateArr(lfSamples, {"distortion": 0, "stretch": stretch, "reverb": reverb, "volume": 1.0, "pan": 0})
