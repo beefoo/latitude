@@ -70,6 +70,12 @@ var Sound = (function() {
 
       if (d.sound) {
         var rddata = result.data.data;
+        rddata = _.map(rddata, function(dd){
+          var returnValue = dd;
+          if (typeof dd !== 'number' && dd.norm) returnValue = dd.norm;
+          return returnValue;
+        });
+        // console.log(rddata)
         var values = _.filter(rddata, function(v){ return v!=="-"; })
         var vmin = _.min(values);
         var vmax = _.max(values);
