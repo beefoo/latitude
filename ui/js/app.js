@@ -5,16 +5,16 @@ var App = (function() {
   function App(config) {
     var defaults = {
       "data": [
-        {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar", "append": "°C", "chart": true},
-        {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M", "chart": true},
-        {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$", "chart": true},
-        {"el": "#population", "url": "data/pop_count.json", "type": "bar", "chart": true},
-        {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C", "chart": true},
-        {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar", "chart": true},
+        {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar", "append": "°C", "chart": true, "sound": "flute_Cs6_1_mezzo-forte_normal"},
+        {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M", "chart": true, "sound": "trumpet_Fs4_1_pianissimo_normal"},
+        {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$", "chart": true, "sound": "saxophone_Gs4_1_piano_normal"},
+        {"el": "#population", "url": "data/pop_count.json", "type": "bar", "chart": true, "sound": "long-synth-choir_C_major"},
+        {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C", "chart": true, "sound": "cello_G2_1_forte_arco-normal"},
+        {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar", "chart": true, "sound": "viola_D3_1_forte_arco-normal"},
         {"el": "#cities", "url": "data/cities.json", "type": "list", "map": true},
         {"el": "#surface", "url": "data/land.json", "label": "Land", "type": "pie", "chart": true},
-        {"el": "#surface", "label": "Ocean", "type": "pie", "title": "Ocean area", "year": 2010, "source": "NASA SEDAC", "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10", "chart": true},
-        {"el": "#surface", "url": "data/ice.json", "label": "Ice sheet", "type": "pie", "chart": true}
+        {"el": "#surface", "label": "Ocean", "type": "pie", "title": "Ocean area", "year": 2010, "source": "NASA SEDAC", "sourceURL": "http://sedac.ciesin.columbia.edu/data/set/gpw-v4-land-water-area-rev10", "chart": true, "sound": "double-bass_A1_1_mezzo-forte_arco-normal"},
+        {"el": "#surface", "url": "data/ice.json", "label": "Ice sheet", "type": "pie", "chart": true, "sound": "double-bass_A3_1_mezzo-forte_arco-normal"}
       ]
     };
 
@@ -104,6 +104,7 @@ var App = (function() {
     this.dashboard.loadData(results);
     this.chart.loadData(results);
     this.map.loadData(results);
+    this.sound.loadData(results);
   };
 
   App.prototype.onFirstLoad = function(){
@@ -129,6 +130,7 @@ var App = (function() {
     this.dashboard.onScroll(scrollPercent);
     this.chart.onScroll(scrollPercent);
     this.map.onScroll(scrollPercent);
+    this.sound.onScroll(scrollPercent);
   };
 
   App.prototype.openModal = function($el){

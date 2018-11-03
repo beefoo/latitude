@@ -1,0 +1,38 @@
+{
+  "cello_G2_1_forte_arco-normal": [
+    0, 
+    5000
+  ], 
+  "double-bass_A1_1_mezzo-forte_arco-normal": [
+    5000, 
+    5000
+  ], 
+  "double-bass_A2_1_mezzo-forte_arco-normal": [
+    10000, 
+    5000
+  ], 
+  "double-bass_A3_1_mezzo-forte_arco-normal": [
+    15000, 
+    5000
+  ], 
+  "flute_Cs6_1_mezzo-forte_normal": [
+    20000, 
+    5000
+  ], 
+  "long-synth-choir_C_major": [
+    25000, 
+    5000
+  ], 
+  "saxophone_Gs4_1_piano_normal": [
+    30000, 
+    5000
+  ], 
+  "trumpet_Fs4_1_pianissimo_normal": [
+    35000, 
+    5000
+  ], 
+  "viola_D3_1_forte_arco-normal": [
+    40000, 
+    5000
+  ]
+}
