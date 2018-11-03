@@ -31,10 +31,10 @@ var Sound = (function() {
 
   Sound.prototype.listen = function(){
     var _this = this;
-    var t = new Date();
-    var delta = t - this.startTime;
+    var t = new Date().getTime();
 
     var dur = this.clipDuration;
+    var delta = (t - this.startTime) % dur;
     var half = dur * 0.5;
 
     _.each(this.data, function(d, i){
@@ -43,10 +43,11 @@ var Sound = (function() {
         if (!d.lastPlayed1 || !_this.sound1.playing(d.sound1) && (t-d.lastPlayed1) >= dur) {
           _this.data[i].sound1 = _this.sound1.play(d.sound1);
           _this.data[i].lastPlayed1 = t;
+          _this.data[i].queuePlay2 = t + half;
         }
 
         // check sound2
-        if (!d.lastPlayed2 && delta >= half || d.lastPlayed2 && !_this.sound2.playing(d.sound2) && (t-d.lastPlayed2) >= dur) {
+        if (!d.lastPlayed2 && t >= d.queuePlay2 || d.lastPlayed2 && !_this.sound2.playing(d.sound2) && t >= d.queuePlay2 && (t-d.lastPlayed2) >= dur) {
           _this.data[i].sound2 = _this.sound2.play(d.sound2);
           _this.data[i].lastPlayed2 = t;
         }
@@ -134,7 +135,7 @@ var Sound = (function() {
 
     this.onScroll();
 
-    this.startTime = new Date();
+    this.startTime = new Date().getTime();
     this.listen();
   };
 
