@@ -29,6 +29,33 @@ var Sound = (function() {
     });
   };
 
+  Sound.prototype.listen = function(){
+    var _this = this;
+    var t = new Date();
+    var delta = t - this.startTime;
+
+    var dur = this.clipDuration;
+    var half = dur * 0.5;
+
+    _.each(this.data, function(d, i){
+      if (d.sound1 && d.sound2) {
+        // check sound1
+        if (!d.lastPlayed1 || !_this.sound1.playing(d.sound1) && (t-d.lastPlayed1) >= dur) {
+          _this.data[i].sound1 = _this.sound1.play(d.sound1);
+          _this.data[i].lastPlayed1 = t;
+        }
+
+        // check sound2
+        if (!d.lastPlayed2 && delta >= half || d.lastPlayed2 && !_this.sound2.playing(d.sound2) && (t-d.lastPlayed2) >= dur) {
+          _this.data[i].sound2 = _this.sound2.play(d.sound2);
+          _this.data[i].lastPlayed2 = t;
+        }
+      }
+    });
+
+    requestAnimationFrame(function(){ _this.listen(); });
+  };
+
   Sound.prototype.loadData = function(results) {
 
     var _this = this;
@@ -57,34 +84,16 @@ var Sound = (function() {
     this.dataPromise.resolve();
   };
 
-  Sound.prototype.onScroll = function(scrollPercent) {
-    if (scrollPercent !== undefined) this.scrollPercent = scrollPercent;
-    if (!this.ready) return false;
-
-    var _this = this;
-    var percent = this.scrollPercent;
-
-    _.each(this.data, function(d, i){
-      if (d.sound1 && d.sound2) {
-        var len = d.data.length;
-        var index = Math.round((len-1) * percent);
-        var volume = d.data[index];
-        _this.sound1.volume(volume, d.sound1);
-        _this.sound2.volume(volume, d.sound2);
-      }
-    });
-  };
-
   Sound.prototype.loadSounds = function(){
     var _this = this;
     var audioSrc = this.opt.audioSrc;
     var deferred = $.Deferred();
 
     $.getJSON(this.opt.sprites, function(sprites) {
-      sprites = _.mapObject(sprites, function(sprite){
-        sprite.push(true);
-        return sprite;
-      })
+      // sprites = _.mapObject(sprites, function(sprite){
+      //   sprite.push(true);
+      //   return sprite;
+      // })
       console.log("Loaded sprites: ", sprites);
       var first = _.first(_.values(sprites));
       _this.clipDuration = first[1];
@@ -114,13 +123,46 @@ var Sound = (function() {
         var s2 = _this.sound2.play(d.sound);
         _this.sound1.volume(0, s1);
         _this.sound2.volume(0, s2);
-        _this.sound2.seek(half, s2);
+        _this.sound1.pause(s1);
+        _this.sound2.pause(s2);
         data[i].sound1 = s1;
         data[i].sound2 = s2;
+        data[i].lastPlayed1 = false;
+        data[i].lastPlayed2 = false;
       }
     });
 
     this.onScroll();
+
+    this.startTime = new Date();
+    this.listen();
+  };
+
+  Sound.prototype.onScroll = function(scrollPercent) {
+    if (scrollPercent !== undefined) this.scrollPercent = scrollPercent;
+    if (!this.ready) return false;
+
+    var _this = this;
+    var percent = this.scrollPercent;
+
+    _.each(this.data, function(d, i){
+      if (d.sound1 && d.sound2) {
+        var len = d.data.length;
+        var index = Math.round((len-1) * percent);
+        var volume = d.data[index];
+        var prevVolume = _this.sound1.volume(d.sound1);
+        var delta = Math.abs(prevVolume-volume);
+        // fade large deltas
+        if (delta > 0.25) {
+          _this.sound1.fade(prevVolume, volume, 1000, d.sound1);
+          _this.sound2.fade(prevVolume, volume, 1000, d.sound2);
+        } else {
+          _this.sound1.volume(volume, d.sound1);
+          _this.sound2.volume(volume, d.sound2);
+        }
+
+      }
+    });
   };
 
   Sound.prototype.toggleSound = function($el){
