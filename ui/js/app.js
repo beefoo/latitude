@@ -98,6 +98,11 @@ var App = (function() {
         _this.closeModals();
       }
     });
+
+    $('.toggle-sound').on("click", function(e){
+      e.preventDefault();
+      _this.sound.toggleSound($(this));
+    });
   };
 
   App.prototype.onDataLoaded = function(results){

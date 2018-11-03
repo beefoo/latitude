@@ -123,6 +123,19 @@ var Sound = (function() {
     this.onScroll();
   };
 
+  Sound.prototype.toggleSound = function($el){
+    var status = $el.attr("data-status");
+    if (status === "on") {
+      $el.attr("data-status", "off");
+      $el.text("Turn sound on");
+      Howler.volume(0);
+    } else {
+      $el.attr("data-status", "on");
+      $el.text("Turn sound off");
+      Howler.volume(1);
+    }
+  };
+
   return Sound;
 
 })();
