@@ -147,6 +147,19 @@ nav a:first-child {
   color: rgba(255,255,255,0.5);
 }
 
+.sound-label {
+  position: absolute;
+  top: 0.8rem;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  z-index: 5;
+  text-transform: uppercase;
+  letter-spacing: 0.2vmin;
+  color: rgba(255,255,255,0.5);
+}
+
 #map {
   background: url(../img/land_shallow_topo_8192.png) no-repeat;
   background-size: cover;
@@ -501,7 +514,8 @@ h2 {
   font-size: var(--font-size-small);
 }
 .content .label,
-.source {
+.source,
+.sound-label {
   font-size: var(--font-size-xsmall);
 }
 .content .value {
