@@ -30,6 +30,11 @@ SPRITE_FILE = args.SPRITE_FILE
 SAMPLE_WIDTH = 2
 FRAME_RATE = 44100
 CHANNELS = 2
+POWER_LEVEL = -24
+
+def setPowerLevel(sound, targetLevel):
+    difference = targetLevel - sound.dBFS
+    return sound.apply_gain(difference)
 
 # Adapted from: https://github.com/paulnasca/paulstretch_python/blob/master/paulstretch_newmethod.py
 def paulStretch(samplerate, smp, stretch, windowsize_seconds=0.25, onset_level=10.0):
@@ -238,6 +243,9 @@ for i, fn in enumerate(files):
     else:
         amount = 1.0 * STRETCH_TO / audioDur
         audio = stretchSound(audio, amount)
+
+    # attempt to set power level evenly
+    audio = setPowerLevel(audio, POWER_LEVEL)
 
     audio = audio.fade_in(FADE_IN).fade_out(FADE_OUT)
     position = i * STRETCH_TO
