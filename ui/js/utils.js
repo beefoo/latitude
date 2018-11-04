@@ -1,3 +1,7 @@
+function easeIn(t){
+  return t*(2-t)
+}
+
 function formatLat(lat) {
   lat = round(lat, 1);
   if (lat < 0) lat = -lat + "°S";

@@ -82,7 +82,7 @@ var Sound = (function() {
         var newData = _.map(rddata, function(value){
           var normValue = 0;
           if (value !== "-") normValue = norm(value, vmin, vmax);
-          return normValue;
+          return easeIn(normValue);
         });
         d.data = newData;
       }
