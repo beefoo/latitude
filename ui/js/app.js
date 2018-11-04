@@ -6,8 +6,8 @@ var App = (function() {
     var defaults = {
       "data": [
         {"el": "#anomaly", "url": "data/anomaly.json", "type": "bar", "append": "°C", "chart": true, "sound": "flute_Cs6_1_mezzo-forte_normal"},
-        {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M", "chart": true, "sound": "trumpet_Fs4_1_pianissimo_normal"},
-        {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$", "chart": true, "sound": "saxophone_Gs4_1_piano_normal"},
+        {"el": "#emissions", "url": "data/emissions.json", "type": "bar", "append": "M", "chart": true, "sound": "trumpet_Fs4_long_piano_normal"},
+        {"el": "#gdp", "url": "data/gdp.json", "type": "bar", "prepend": "$", "chart": true, "sound": "saxophone_Gs4_1_forte_normal"},
         {"el": "#population", "url": "data/pop_count.json", "type": "bar", "chart": true, "sound": "long-synth-choir_C_major"},
         {"el": "#temperature", "url": "data/temperature.json", "type": "bar", "append": "°C", "chart": true, "sound": "cello_G2_1_forte_arco-normal"},
         {"el": "#vegetation", "url": "data/vegetation.json", "type": "bar", "chart": true, "sound": "viola_D3_1_forte_arco-normal"},
