@@ -44,6 +44,9 @@ def reduceBy(arr, amount, reduceTo):
     return arr[i0:i1]
 
 def sortBy(arr, sorters):
+    if isinstance(sorters, tuple):
+        sorters = [sorters]
+
     if len(arr) <= 0:
         return arr
 
