@@ -12,7 +12,7 @@ import sys
 
 # input
 parser = argparse.ArgumentParser()
-parser.add_argument('-in', dest="INPUT_FILES", default="data/downloads/orchestra/*", help="Input file pattern")
+parser.add_argument('-in', dest="INPUT_FILES", default="audio/*", help="Input file pattern")
 parser.add_argument('-stetch', dest="STRETCH_TO", default=5000, type=int, help="Stretch each clip to this duration in ms")
 parser.add_argument('-fin', dest="FADE_IN", default=100, type=int, help="Fade in ms")
 parser.add_argument('-fout', dest="FADE_OUT", default=100, type=int, help="Fade out ms")
